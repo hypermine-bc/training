@@ -4,10 +4,15 @@ import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
+import { getWeb3 } from '@/utils/web3/getWeb3' // 验权
 
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  getWeb3.then(e=>{
+    console.log('Initializing getWeb3')
+  });
+  debugger
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
