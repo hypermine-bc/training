@@ -6,7 +6,8 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    web3:''
   },
 
   mutations: {
@@ -21,6 +22,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_WEB3:(state,data)=>{
+      state.web3=data
     }
   },
 
@@ -29,7 +33,8 @@ const user = {
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
+        login(username, userInfo.password)
+        .then(response => {
           const data = response.data
           setToken(data.token)
           commit('SET_TOKEN', data.token)
@@ -38,6 +43,14 @@ const user = {
           reject(error)
         })
       })
+    },
+
+    //CHienese 
+    WEB3_INITIALIZED({ commit }, web3) {
+      return new Promise((resolve, reject) => {
+          commit('SET_WEB3', web3)
+          resolve(true)
+        })
     },
 
     // 获取用户信息
