@@ -1,42 +1,31 @@
 
+//Metamask validation
+export const validateMetaMaskConnections = async(web3) => {
+  debugger
+  //checking if metamask is installed or notdebugger
+  console.log('checking if metamask is installed or not');
+  if(typeof web3 == 'undefined' || web3 == null || typeof web3.currentProvider.isMetaMask == 'undefined'){
+    alert('Metamask not installed');  
+    return false
+  }
 
-// export const validateConnections = (web3, changeNetworkState) => {
-//   //checking if metamask is installed or notdebugger
-//   console.log('checking if metamask is installed or not');
-//   if(typeof web3 == 'undefined' || web3 == null || typeof web3.currentProvider.isMetaMask == 'undefined'){
-//       changeNetworkState({
-//           isInNetwork: false,
-//           alertMessage: "Metamask is not installed. Please install Metamask from ",
-//           open: true
-//       });
-//       return
-//   }
+  //checking conneted to Pramati network or not
+  // console.log('checking conneted to Pramati network or not...');
+  // if(web3.currentProvider.publicConfigStore._state.networkVersion.toString() != "9876") {
+  //   console.log('Not connected to Our network');
+  //   return false
+  // }
 
-//   //checking conneted to Pramati network or not
-//   console.log('checking conneted to Pramati network or not...');
-//   if(web3.currentProvider.publicConfigStore._state.networkVersion.toString() != "9876") {
-//       changeNetworkState({
-//           isInNetwork: false,
-//           alertMessage: "Not connected to Pramati Network. Please select Pramati Network in Metamask to proceed!",
-//           open: true
-//       });
-//       return
-//   }
-
-//   //checking if user has unlocked wallet or not
-//   console.log('checking if user has unlocked wallet or not...');
-//   web3.eth.getAccounts((err, accounts) => {
-//       if (err != null) console.error("An error occurred: "+err);
-//       else if (accounts.length == 0){
-//           changeNetworkState({
-//               isInNetwork: false,
-//               alertMessage: "You are not logged in to Metamask! Please login to proceed!",
-//               open: true
-//           });
-//       return
-//       }
-//   });
-// }
+  //checking if user has unlocked wallet or not
+  console.log('checking if user has unlocked wallet or not...');
+  web3.eth.getAccounts(  (err, accounts) => {
+    if (err != null) console.error("An error occurred: "+err);
+    else if (accounts.length == 0){
+      alert('checking if user has unlocked wallet or not...');
+    return false
+    }
+  });
+}
 
 export function isvalidUsername(str) {
   const valid_map = ['admin', 'editor']

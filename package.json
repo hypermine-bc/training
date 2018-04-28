@@ -22,7 +22,9 @@
     "vue": "2.5.10",
     "vue-router": "3.0.1",
     "vuex": "3.0.1",
-    "web3": "^1.0.0-beta.33"
+    "web3": "^1.0.0-beta.33",
+    "eth-sig-util": "^1.4.2",
+    "ethereumjs-util": "^5.1.5"
   },
   "devDependencies": {
     "autoprefixer": "7.2.3",

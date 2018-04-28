@@ -4,32 +4,22 @@ import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
-import { getWeb3 } from '@/utils/web3/getWeb3' // 验权
+import { validateMetaMaskConnections } from '@/utils/validate' 
+
+
 
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  getWeb3.then(e=>{
-    console.log('Initializing getWeb3')
-  });
-  debugger
-  if (getToken()) {
+  if (validateMetaMaskConnections(web3)) {
+    debugger
     if (to.path === '/login') {
+      debugger
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
-      if (store.getters.roles.length === 0) {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          next()
-        }).catch(() => {
-          store.dispatch('FedLogOut').then(() => {
-            Message.error('验证失败,请重新登录')
-            next({ path: '/login' })
-          })
-        })
-      } else {
-        next()
-      }
+      debugger
+      next()
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
