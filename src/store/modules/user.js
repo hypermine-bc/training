@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken,setWeb3 } from '@/utils/auth'
 
 const user = {
   state: {
@@ -24,7 +24,9 @@ const user = {
       state.roles = roles
     },
     SET_WEB3:(state,data)=>{
+      // debugger
       state.web3=data
+      console.log(state)
     }
   },
 
@@ -44,12 +46,39 @@ const user = {
         })
       })
     },
+    Web3Login({ commit }, recovered) {
+      return new Promise((resolve, reject) => {
+          try {
+            setToken(recovered.toLowerCase())
+            // setWeb3(data.web3)
+            // commit('SET_TOKEN', toLowerCase())
+            resolve(true)
+          }
+          catch(error) {
+            console.error(error);
+            resolve(false)
+            // expected output: SyntaxError: unterminated string literal
+            // Note - error messages will vary depending on browser
+          }
+          
+      })
+    },
 
     //CHienese 
     WEB3_INITIALIZED({ commit }, web3) {
       return new Promise((resolve, reject) => {
-          commit('SET_WEB3', web3)
-          resolve(true)
+          try {
+              console.log('I am inside web3Initialized')
+              commit('SET_WEB3', web3)
+              resolve(true)
+          }
+          catch(error) {
+            console.error(error);
+            resolve(false)
+            // expected output: SyntaxError: unterminated string literal
+            // Note - error messages will vary depending on browser
+          }
+  
         })
     },
 

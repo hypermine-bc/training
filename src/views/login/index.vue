@@ -32,9 +32,18 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
-import { validateMetaMaskConnections } from '@/utils/validate' 
+import { validateMetaMaskConnections , CheckAccount} from '@/utils/validate' 
 var ethUtil = require('ethereumjs-util')
 var sigUtil = require('eth-sig-util')
+import  getWeb3  from '@/utils/web3/getWeb3' // 验权
+
+getWeb3
+  .then(results => {
+    console.log('Web3 initialize in store')
+  })
+  .catch((err) => {
+    console.log('Error in web3 initialization. Err = '+ err)
+  })
 
 export default {
   name: 'login',
@@ -93,55 +102,67 @@ export default {
 
 
     handleLogin() {
-      debugger;
       
-      let web3 =  this.$store.state.user.web3.web3Instance;
+      let web3 =  this.$store.state.user.web3.web3Instance
       // Double-check web3's status.
-      if (typeof web3 !== 'undefined') {
-        if(!validateMetaMaskConnections(web3)) {
-          debugger
-          return
+      if (typeof web3 !== 'undefined' || web3 !='') {
+        console.log(web3)
+        if(validateMetaMaskConnections(web3)){ 
+              CheckAccount(web3)
+              .then(e=>{
+                  web3.eth.getAccounts((err,newres)=>{
+                    var from = newres[0];
+                    var text = "These are the terms and conditions!"
+                    var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
+                    // var msg = '0x1' // hexEncode(text)
+                    console.log(msg)
+                    console.log('CLICKED, SENDING PERSONAL SIGN REQ')
+                    var params = [msg, from]
+                    var method = 'personal_sign'
+
+                    web3.currentProvider.sendAsync({
+                    method,
+                    params,
+                    from,
+                    }, (err, result) => {
+                      if (err) return console.error(err)
+                      if (result.error) return console.error(result.error)
+                      console.log('PERSONAL SIGNED:' + JSON.stringify(result.result))
+
+                      console.log('recovering...')
+                      const msgParams = { data: msg }
+                      msgParams.sig = result.result
+                      console.dir({ msgParams })
+                      const recovered = sigUtil.recoverPersonalSignature(msgParams)
+                      console.dir({ recovered })
+
+                      if (recovered.toLowerCase() === from.toLowerCase()) {
+                        console.log('SigUtil Successfully verified signer as ' + from)
+                          this.$store.dispatch('Web3Login',recovered).then(() => {
+                          this.loading = false
+                          this.$router.push({ path: '/' })
+                        }).catch(() => {
+                          this.loading = false
+                        })
+                      } else {
+
+                        this.loading = false
+                        console.dir(recovered)
+                        console.log('SigUtil Failed to verify signer when comparing ' + recovered.result + ' to ' + from)
+                        console.log('Failed, comparing %s to %s', recovered, from)
+                      }
+                  })
+                });
+              })
+              .catch(er=>{
+                alert('Login to your Metamask ')
+              })
+              
         }
+        else{alert('Please install Metanask plugin')}
+        
 
-        web3.eth.getAccounts((err,newres)=>{
-          var from = newres[0];
-          var text = "These are the terms and conditions!"
-          var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
-          // var msg = '0x1' // hexEncode(text)
-          console.log(msg)
-          console.log('CLICKED, SENDING PERSONAL SIGN REQ')
-          var params = [msg, from]
-          var method = 'personal_sign'
 
-          web3.currentProvider.sendAsync({
-            method,
-            params,
-            from,
-          }, (err, result) => {
-            if (err) return console.error(err)
-            if (result.error) return console.error(result.error)
-            console.log('PERSONAL SIGNED:' + JSON.stringify(result.result))
-
-            console.log('recovering...')
-            const msgParams = { data: msg }
-            msgParams.sig = result.result
-            console.dir({ msgParams })
-            const recovered = sigUtil.recoverPersonalSignature(msgParams)
-            console.dir({ recovered })
-
-            if (recovered.toLowerCase() === from.toLowerCase()) {
-              console.log('SigUtil Successfully verified signer as ' + from)
-              this.loading = false
-              debugger
-              this.$router.push({ path: '/' })
-            } else {
-              this.loading = false
-              console.dir(recovered)
-              console.log('SigUtil Failed to verify signer when comparing ' + recovered.result + ' to ' + from)
-              console.log('Failed, comparing %s to %s', recovered, from)
-            }
-          })
-        });
       } else {
         console.error('Web3 is not initialized.');
       }

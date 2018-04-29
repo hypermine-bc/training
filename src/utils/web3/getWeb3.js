@@ -27,16 +27,14 @@ let getWeb3 = new Promise(function(resolve, reject) {
         web3Instance: web3
         //web3WsInstance: web3Ws
       }
-      debugger
+
       
       // let res = await store.dispatch('WEB3_INITIALIZED',results);
       // resolve(true);
-
+      // debugger
       store.dispatch('WEB3_INITIALIZED',results).then(res => { // 拉取用户信息
-        console.log('Injected web3 detected.');
         resolve(true)
-      }).catch(() => {
-        console.log('Web3 present in windows but error in dispatcing to STORE.')
+      }).catch((e) => {
         resolve(false)
       })
     } else {
@@ -52,7 +50,6 @@ let getWeb3 = new Promise(function(resolve, reject) {
       }
 
       console.log('No web3 instance injected, using Local web3.');
-
       store.dispatch('WEB3_INITIALIZED',results).then(res => { // 拉取用户信息
         console.log('Injected web3 detected.');
         resolve(true)

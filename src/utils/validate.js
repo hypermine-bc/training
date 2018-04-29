@@ -1,31 +1,47 @@
+import store from '../store'
+// import Web3 from 'web3'
 
 //Metamask validation
-export const validateMetaMaskConnections = async(web3) => {
-  debugger
-  //checking if metamask is installed or notdebugger
-  console.log('checking if metamask is installed or not');
-  if(typeof web3 == 'undefined' || web3 == null || typeof web3.currentProvider.isMetaMask == 'undefined'){
-    alert('Metamask not installed');  
-    return false
-  }
-
-  //checking conneted to Pramati network or not
-  // console.log('checking conneted to Pramati network or not...');
-  // if(web3.currentProvider.publicConfigStore._state.networkVersion.toString() != "9876") {
-  //   console.log('Not connected to Our network');
-  //   return false
-  // }
-
-  //checking if user has unlocked wallet or not
-  console.log('checking if user has unlocked wallet or not...');
-  web3.eth.getAccounts(  (err, accounts) => {
-    if (err != null) console.error("An error occurred: "+err);
-    else if (accounts.length == 0){
-      alert('checking if user has unlocked wallet or not...');
-    return false
+export const validateMetaMaskConnections = async function(web3) {
+  try{
+      if(typeof web3 == 'undefined' || web3 == null || typeof web3.currentProvider.isMetaMask == 'undefined'){
+        console.log('Metamask not installed');  
+        return false
+      }
+      else{
+        return true
+        //checking conneted to Pramati network or not
+        // console.log('checking connected to Pramati network or not...');
+        // if(web3.currentProvider.publicConfigStore._state.networkVersion.toString() != "1524990576231") {
+        //   console.log('Not connected to Our network');
+        //   return false
+        // }
+      }
     }
-  });
+    catch(e){
+      reject(e)
+    }
+   
 }
+
+export function  CheckAccount(web3){
+  return new Promise((resolve,reject) =>{
+    //checking if user has unlocked wallet or not
+    // debugger
+    console.log('checking if user has unlocked wallet or not...');        
+    web3.eth.getAccounts((err,accounts)=> {
+      if (err != null) console.error("An error occurred: "+err);
+      else if (accounts.length == 0){
+         reject(true)
+      }else {
+        resolve(true)
+      }
+    })
+  })
+}
+
+
+
 
 export function isvalidUsername(str) {
   const valid_map = ['admin', 'editor']
