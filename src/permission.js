@@ -6,8 +6,6 @@ import { Message } from 'element-ui'
 import { getToken,getWeb3 } from '@/utils/auth' // 验权
 import { validateMetaMaskConnections , CheckAccount } from '@/utils/validate' 
 
-
-
 const whiteList = ['/login'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
 
@@ -15,7 +13,6 @@ router.beforeEach((to, from, next) => {
 
   if(getToken())
   {
-      console.log(store.state.user.web3)
       if(validateMetaMaskConnections(store.state.user.web3.web3Instance))
       {
         CheckAccount(web3)
@@ -36,9 +33,6 @@ router.beforeEach((to, from, next) => {
           }
         })
       }
-
-      
-      
   }
   else{
     if (whiteList.indexOf(to.path) !== -1) {
@@ -47,7 +41,7 @@ router.beforeEach((to, from, next) => {
           next('/login')
           NProgress.done()
         }
-  }
+    }
 
 })
 

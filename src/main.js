@@ -12,6 +12,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import VueParticles from 'vue-particles'
+// import VuePrism from 'vue-prism'
 
 
 import '@/icons' // icon
@@ -20,7 +22,7 @@ import '@/permission' // permission control
 
 
 Vue.use(ElementUI, { locale })
-
+Vue.use(VueParticles)
 Vue.config.productionTip = false
 
 new Vue({

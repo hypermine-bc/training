@@ -1,35 +1,50 @@
 <template>
-  <div class="login-container">
-    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
-      class="card-box login-form">
-      <h3 class="title">vue-element-admin</h3>
-      <!-- <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
-      </el-form-item> -->
-      <!-- <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"></svg-icon>
-        </span>
-        <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="password"></el-input>
-          <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
-      </el-form-item> -->
-      <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
-        </el-button>
-      </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: admin</span>
+<div>
+    <div>
+      <vue-particles
+        color="#dedede"
+        :particleOpacity="0.7"
+        :particlesNumber="80"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#dedede"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="150"
+        :moveSpeed="3"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+      >
+      </vue-particles>
+      <div class="login-container">
+        <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
+          class="card-box login-form">
+          <h3 class="title">Decentralized Digital Content</h3>
+          <el-form-item>
+            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
+              Sign in with metamask
+            </el-button>
+          </el-form-item>
+        </el-form>
       </div>
-    </el-form>
+    </div>
   </div>
 </template>
-
+<style>
+.primary {
+    padding: 8px 12px;
+    background: #F7861C;
+    box-shadow: 0px 3px 6px rgba(247, 134, 28, 0.36);
+    color: white;
+    font-size: 1.1em;
+    font-family: 'Montserrat Regular';
+    text-transform: uppercase;
+}
+#particles-js{ position:absolute; width: 100%; height: 100%; background-color: #b61924; background-image: url(""); background-repeat: no-repeat; background-size: cover; background-position: 50% 50%; }
+</style>
 <script>
 import { isvalidUsername } from '@/utils/validate'
 import { validateMetaMaskConnections , CheckAccount} from '@/utils/validate' 
@@ -172,7 +187,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-  $bg:#2d3a4b;
+  $bg:rgba(45, 58, 75, 0.4);
   $dark_gray:#889aa4;
   $light_gray:#eee;
 
