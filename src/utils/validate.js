@@ -23,7 +23,7 @@ export const validateMetaMaskConnections = async function(web3) {
     }
    
 }
-
+//function
 export function  CheckAccount(web3){
   return new Promise((resolve,reject) =>{
     //checking if user has unlocked wallet or not
