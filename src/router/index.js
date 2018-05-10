@@ -37,28 +37,48 @@ export const constantRouterMap = [
     }]
   },
 
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
   {
-    path: '/example',
+    path: '/feed',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/feed/trending',
+    name: 'Feed',
+    meta: { title: 'Feed', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'trending',
+        name: 'Trending',
+        component: () => import('@/views/feed/index'),
+        meta: { title: 'Trending', icon: 'headphones' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'bhangra',
+        name: 'Bhangra',
+        component: () => import('@/views/feed/index'),
+        meta: { title: 'Bhangra', icon: 'headphones' }
       }
     ]
   },
-
   {
     path: '/form',
     component: Layout,

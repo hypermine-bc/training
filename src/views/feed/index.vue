@@ -1,26 +1,37 @@
 <template>
   <div class="dashboard-container">
-    <section v-for="feed in feeds" class="vid-category">
-        <div class="vid-category-header"><i class="el-icon-service"></i>{{feed.category.topic}} - <span class="time">{{feed.category.subtopic}}</span></div>
-          <div class="grid-content" style="max-width:97%; overflow-x:scroll">
-           <table>
-             <tr>
-                <td v-for="(video, index) in feed.video_list" style="width:250px;min-width:250px">
-                  <el-card style="padding:0px" shadow="hover" >
-                    <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image">
-                      <div style="padding: 14px;">
-                        <span>{{video.title}}</span>
-                        <div class="bottom clearfix">
-                          <time class="time">{{ video.timeStamp }}</time>
-                          <el-button type="text" class="button">Operating button</el-button>
-                        </div>
-                      </div>
-                  </el-card>
-                </td>
-             </tr>
-           </table>
-          </div>
-    </section>
+    <div class="vid-category-header"><i class="el-icon-service"></i>{{feed.category.topic}} - <span class="time">{{feed.category.subtopic}}</span></div>
+    <section v-for="video in feed.video_list" class="vid-category">
+        <div class="grid-content" style="">
+          <el-container>
+            <el-aside width="">
+              <el-card style="padding:0px" shadow="hover" >
+                <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image">
+              </el-card>
+            </el-aside>
+            <el-container>
+              <el-header>{{video.title}}</el-header>
+              <el-main>{{video.description}}</el-main>
+              <el-footer><time class="time">{{ video.timeStamp }}</time>
+                            <time class="time">{{ video.views }}</time></el-footer>
+            </el-container>
+          </el-container>
+          <!-- <el-container>
+            <el-aside>
+              
+            </el-aside>
+            <el-main>
+              <div style="">
+                <div class="vid-category-header"><i class="el-icon-service"></i>{{video.title}}</div>
+                <div class="bottom clearfix">
+                  <time class="time">{{ video.timeStamp }}</time>
+                  <time class="time">{{ video.views }}</time>
+                </div>
+              </div>
+            </el-main>
+          </el-container> -->
+        </div>
+      </section>
   </div>
 </template>
 <style>
@@ -37,7 +48,7 @@
       margin-bottom: 0;
     }
   }
-  .el-col {
+  /*.el-col {
     border-radius: 4px;
   }
   .bg-purple-dark {
@@ -52,19 +63,19 @@
   .grid-content {
     border-radius: 4px;
     min-height: 36px;
-  }
+  }*/
   .row-bg {
     padding: 10px 0;
     background-color: #f9fafc;
   }
-  .el-header, .el-footer {
+ /* .el-header, .el-footer {
     background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
-  }
+  }*/
   
-  .el-aside {
+/*  .el-aside {
     background-color: #D3DCE6;
     color: #333;
     text-align: center;
@@ -76,7 +87,7 @@
     color: #333;
     text-align: center;
     line-height: 160px;
-  }
+  }*/
   
   body > .el-container {
     margin-bottom: 40px;
@@ -133,17 +144,17 @@ export default {
   },
   data(){
     return {
-        feeds:[{ category:{topic:"Trending",subtopic:""},
+        feed:{ category:{topic:"Trending",subtopic:""},
                 video_list:[
                   {
-                    title:"Title 1",
+                    title:"Dhee 10 | 9th May 2018 | Full Episode | ETV Telugu",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
                     views:"4 million",
                     timeStamp:"last month"
                   },
                   {
-                    title:"Title 2",
+                    title:"Kaala (Tamil) - Official Jukebox | Rajinikanth | Pa Ranjith | Santhosh Narayanan | Dhanush",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
                     views:"4 million",
@@ -191,56 +202,7 @@ export default {
               ],
 
       },
-      { category:{topic:"T-Series",subtopic:"Recommended topic"},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      },
-      { category:{topic:"M-TV",subtopic:"Recommended topic"},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      }]
+      
     } 
   }
 }
