@@ -1,18 +1,26 @@
 <template>
   <div class="dashboard-container">
-      <el-row>
-          <el-col :span="24">
-            <div class="grid-content bg-purple">
-              <el-container>
-                <el-aside>
-                  <iframe width="200" height="200" src="https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </el-aside>
-                <el-main>Viedeo Title</el-main>
-              </el-container>
+      <section v-for="feed in feeds" class="vid-category">
+            <div class="vid-category-header"><i class="el-icon-service"></i>{{feed.category.topic}} - <span class="time">{{feed.category.subtopic}}</span></div>
+            <div class="grid-content" style="max-width:97%; overflow-x:scroll">
+             <table>
+               <tr>
+                  <td v-for="(video, index) in feed.video_list" style="width:250px;min-width:250px">
+                    <el-card style="padding:0px" shadow="hover" >
+                      <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image">
+                        <div style="padding: 14px;">
+                          <span>{{video.title}}</span>
+                          <div class="bottom clearfix">
+                            <time class="time">{{ video.timeStamp }}</time>
+                            <el-button type="text" class="button">Operating button</el-button>
+                          </div>
+                        </div>
+                    </el-card>
+                  </td>
+               </tr>
+             </table>
             </div>
-          </el-col>
-        <!-- <el-col :span="12"><div class="grid-content bg-purple-light"> I am the Details</div></el-col> -->
-      </el-row>
+      </section>
 
     <!-- <el-row>
       <el-col :span="12"><div class="grid-content bg-purple-dark">sdf</div></el-col>
@@ -20,6 +28,13 @@
   </div>
 </template>
 <style>
+  .vid-category{
+    padding: 14px;
+  }
+  .vid-category-header{
+    color: #333;
+    line-height: 60px;
+  }
   .el-row {
     margin-bottom: 20px;
     &:last-child {
@@ -79,6 +94,35 @@
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
+   .time {
+    font-size: 13px;
+    color: #999;
+  }
+  
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .button {
+    padding: 0;
+    float: right;
+  }
+
+  .image {
+    width: 100%;
+    display: block;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
+  }
+  
+  .clearfix:after {
+      clear: both
+  }
 </style>
 <script>
 import { mapGetters } from 'vuex'
@@ -90,6 +134,118 @@ export default {
       'name',
       'roles'
     ])
+  },
+  data(){
+    return {
+        feeds:[{ category:{topic:"Trending",subtopic:""},
+                video_list:[
+                  {
+                    title:"Title 1",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 2",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },{
+                    title:"Title 3",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },{
+                    title:"Title 4",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },{
+                    title:"Title 5",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 6",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 7",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 8",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  }
+              ],
+
+      },
+      { category:{topic:"T-Series",subtopic:"Recommended topic"},
+                video_list:[
+                  {
+                    title:"Title 1",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 2",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 3",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  }
+              ],
+      },
+      { category:{topic:"M-TV",subtopic:"Recommended topic"},
+                video_list:[
+                  {
+                    title:"Title 1",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 2",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 3",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  }
+              ],
+      }]
+    } 
   }
 }
 </script>
