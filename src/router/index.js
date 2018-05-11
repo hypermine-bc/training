@@ -101,7 +101,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'Upload Content',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: 'Upload Content', icon: 'form' }
       }
     ]
   },
