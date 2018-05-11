@@ -24,19 +24,33 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
     name: 'Dashboard',
     hidden: true,
+     meta: { title: 'Dashboard', icon: 'tachometer-alt' },
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      name: 'Dashboard',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: 'Dashboard', icon: 'tachometer-alt' }
     }]
   },
-
+  {
+    path: '/dashboard',
+    component: Layout,
+    meta: { title: 'Dashboard', icon: 'tachometer-alt' },
+    children: [
+      {
+        path: 'index',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: 'Dashboard', icon: 'tachometer-alt' }
+      }
+    ]
+  },
   // {
   //   path: '/example',
   //   component: Layout,
@@ -85,7 +99,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'Form',
+        name: 'Upload Content',
         component: () => import('@/views/form/index'),
         meta: { title: 'Form', icon: 'form' }
       }

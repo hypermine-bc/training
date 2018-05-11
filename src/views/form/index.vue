@@ -1,49 +1,39 @@
 <template>
-  <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai"></el-option>
-          <el-option label="Zone two" value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"></el-date-picker>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-time-picker type="fixed-time" placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery"></el-switch>
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type"></el-checkbox>
-          <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-          <el-checkbox label="Offline activities" name="type"></el-checkbox>
-          <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor"></el-radio>
-          <el-radio label="Venue"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input type="textarea" v-model="form.desc"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="dashboard-container">
+     <section class="content-upload-form">
+        <el-form ref="form" :model="form" label-width="120px">
+          <el-form-item label="Title">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="Tags">
+            <el-select v-model="form.region" placeholder="please select your zone">
+              <el-option label="India" value="india"></el-option>
+              <el-option label="China" value="china"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-upload
+              class="upload-demo"
+              drag
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+              <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="Description">
+            <el-input type="textarea" v-model="form.desc"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">Create</el-button>
+            <el-button @click="onCancel">Cancel</el-button>
+          </el-form-item>
+        </el-form>
+    </section>
   </div>
 </template>
 
@@ -77,9 +67,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .line{
   text-align: center;
+}
+.content-upload-form{
+  padding:10px;
+
 }
 </style>
 

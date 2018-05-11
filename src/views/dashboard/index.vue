@@ -2,11 +2,10 @@
   <div class="dashboard-container">
     <section v-for="feed in feeds" class="vid-category">
         <div class="vid-category-header"><i class="el-icon-service"></i>{{feed.category.topic}} - <span class="time">{{feed.category.subtopic}}</span></div>
-          <div class="grid-content" style="max-width:97%; overflow-x:scroll">
-           <table>
-             <tr>
-                <td v-for="(video, index) in feed.video_list" style="width:250px;min-width:250px">
-                  <el-card style="padding:0px" shadow="hover" >
+          <div class="grid-content">
+          <el-row class="card_box_main" :gutter="30">
+            <el-col v-for="(video, index) in feed.video_list" :md="4" :key="index" class="card_box">
+              <el-card style="padding:0px" shadow="hover" >
                     <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image">
                       <div style="padding: 14px;">
                         <span>{{video.title}}</span>
@@ -16,14 +15,21 @@
                         </div>
                       </div>
                   </el-card>
-                </td>
-             </tr>
-           </table>
+            </el-col>
+          </el-row>
           </div>
     </section>
   </div>
 </template>
 <style>
+  .card_box_main{
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .card_box{
+    display: inline-block;
+    float: none;
+  }
   .vid-category{
     padding: 14px;
   }

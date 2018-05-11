@@ -66,7 +66,7 @@
   }*/
   .row-bg {
     padding: 10px 0;
-    background-color: #f9fafc;
+    /*background-color: #f9fafc;*/
   }
  /* .el-header, .el-footer {
     background-color: #B3C0D1;
