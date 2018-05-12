@@ -73,7 +73,6 @@ export default {
 }
 .content-upload-form{
   padding:10px;
-
 }
 </style>
 
