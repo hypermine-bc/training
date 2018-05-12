@@ -20,7 +20,7 @@ import VueParticles from 'vue-particles'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-
+//Hi
 
 Vue.use(ElementUI, { locale })
 Vue.use(VueParticles)
