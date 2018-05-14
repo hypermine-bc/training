@@ -8,8 +8,8 @@ cache:
     - node_modules
 deploy:
   provider: s3
-  access_key_id: "AKIAJVWE7TVBQEGP6IAA"
-  secret_access_key: "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	"
+  access_key_id: "AKIAJKMRW3I6MM3NBDTA"
+  secret_access_key: "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"
   bucket: "app.adhat.io"
   acl: public_read
   skip_cleanup: true
