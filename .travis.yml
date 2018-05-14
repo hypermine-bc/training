@@ -1,5 +1,22 @@
 language: node_js
-node_js: stable
-script: npm run test
-notifications:
-  email: false
+node_js:
+  - node
+script:
+  - node build/build.js
+cache:
+  directories:
+    - node_modules
+deploy:
+  provider: s3
+  access_key_id: "AKIAJVWE7TVBQEGP6IAA"
+  secret_access_key: "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	"
+  bucket: "app.adhat.io"
+  acl: public_read
+  skip_cleanup: true
+  local_dir: dist
+branches:
+  only:
+    - master
+addons:
+    apt:
+      update: true
