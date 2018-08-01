@@ -24,9 +24,10 @@
           class="card-box login-form">
           <h3 class="title">Decentralized Digital Content</h3>
           <el-form-item>
-            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
+            <qrcode-vue :value="value" :size="size" level="H"></qrcode-vue>
+            <!-- <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
               Sign in with metamask
-            </el-button>
+            </el-button> -->
           </el-form-item>
         </el-form>
       </div>
@@ -47,10 +48,12 @@
 </style>
 <script>
 import { isvalidUsername } from '@/utils/validate'
-import { validateMetaMaskConnections , CheckAccount} from '@/utils/validate' 
+import { validateMetaMaskConnections , CheckAccount} from '@/utils/validate'
+import QrcodeVue from 'qrcode.vue' 
 var ethUtil = require('ethereumjs-util')
 var sigUtil = require('eth-sig-util')
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
+import {authservice} from '../../mixins/pusherlogin.js'
 
 getWeb3
   .then(results => {
@@ -61,6 +64,9 @@ getWeb3
   })
 
 export default {
+  components: {
+    QrcodeVue
+  },
   name: 'login',
   data() {
     const validateUsername = (rule, value, callback) => {
@@ -78,6 +84,8 @@ export default {
       }
     }
     return {
+      value: 'http://app.adhat.io',
+      size: 300,
       loginForm: {
         username: 'admin',
         password: 'admin'
@@ -90,6 +98,7 @@ export default {
       pwdType: 'password'
     }
   },
+  mixins:[authservice],
   methods: {
     showPwd() {
       if (this.pwdType === 'password') {
@@ -117,7 +126,7 @@ export default {
 
 
     handleLogin() {
-      
+      this.$router.push({ path: '/' });
       let web3 =  this.$store.state.user.web3.web3Instance
       // Double-check web3's status.
       if (typeof web3 !== 'undefined' || web3 !='') {
@@ -175,8 +184,6 @@ export default {
               
         }
         else{alert('Please install Metanask plugin')}
-        
-
 
       } else {
         console.error('Web3 is not initialized.');

@@ -5,7 +5,7 @@ import store from '../store'
 export const validateMetaMaskConnections = async function(web3) {
   try{
       if(typeof web3 == 'undefined' || web3 == null || typeof web3.currentProvider.isMetaMask == 'undefined'){
-        console.log('Metamask not installed');  
+        console.log('Hypersign not installed');  
         return false
       }
       else{
