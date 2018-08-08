@@ -1,6 +1,6 @@
 pragma solidity ^0.4.2;
 
-contract Test {
+contract TestContract {
     uint public storedData = 20;
 
     function set(uint x) public {
@@ -8,7 +8,6 @@ contract Test {
     }
 
     function get() public view returns (uint data_) {
-        data_ = 20;
-        return data_;
+        data_ = storedData;
     }
 }

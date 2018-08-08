@@ -24,10 +24,13 @@
           class="card-box login-form">
           <h3 class="title">Decentralized Digital Content</h3>
           <el-form-item>
-            <qrcode-vue :value="value" :size="size" level="H"></qrcode-vue>
-            <!-- <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
+            <!-- <qrcode-vue :value="value" :size="size" level="H"></qrcode-vue> -->
+            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
               Sign in with metamask
-            </el-button> -->
+            </el-button> 
+            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
+              Send Transaction
+            </el-button> 
           </el-form-item>
         </el-form>
       </div>
@@ -54,6 +57,9 @@ var ethUtil = require('ethereumjs-util')
 var sigUtil = require('eth-sig-util')
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
 import {authservice} from '../../mixins/pusherlogin.js'
+
+import contract from  'truffle-contract';
+import TestAbi from '../../../build/contracts/TestContract.json';
 
 getWeb3
   .then(results => {
@@ -100,6 +106,22 @@ export default {
   },
   mixins:[authservice],
   methods: {
+    callSendTx() {
+      debugger
+      let web3 =  this.$store.state.user.web3.web3Instance
+      if(web3){
+        const testContract = contract(TestAbi)
+        testContract.setProvider(web3.currentProvider);
+        testContract.deployed().then(testContractInstance => {
+          debugger
+          testContractInstance.set(
+            10,
+            { from: '0x7db2dbf23d8b8592b6a9389655ede96e8f01b9b6' }
+          )
+        })
+      }
+    },
+
     showPwd() {
       if (this.pwdType === 'password') {
         this.pwdType = ''
@@ -126,6 +148,7 @@ export default {
 
 
     handleLogin() {
+      debugger
       this.$router.push({ path: '/' });
       let web3 =  this.$store.state.user.web3.web3Instance
       // Double-check web3's status.
