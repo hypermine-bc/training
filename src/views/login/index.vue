@@ -24,13 +24,10 @@
           class="card-box login-form">
           <h3 class="title">Decentralized Digital Content</h3>
           <el-form-item>
-            <!-- <qrcode-vue :value="value" :size="size" level="H"></qrcode-vue> -->
-            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
+            <qrcode-vue :value="value" :size="size" level="H"></qrcode-vue>
+            <!-- <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="handleLogin">
               Sign in with metamask
-            </el-button> 
-            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
-              Send Transaction
-            </el-button> 
+            </el-button> -->
           </el-form-item>
         </el-form>
       </div>
@@ -58,8 +55,8 @@ var sigUtil = require('eth-sig-util')
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
 import {authservice} from '../../mixins/pusherlogin.js'
 
-import contract from  'truffle-contract';
-import TestAbi from '../../../build/contracts/TestContract.json';
+// import contract from  'truffle-contract';
+// import TestAbi from '../../../build/contracts/TestContract.json';
 
 getWeb3
   .then(results => {
@@ -90,7 +87,7 @@ export default {
       }
     }
     return {
-      value: 'http://app.adhat.io',
+      value: '{"id": 21,"direction":"Login"',
       size: 300,
       loginForm: {
         username: 'admin',
@@ -106,21 +103,21 @@ export default {
   },
   mixins:[authservice],
   methods: {
-    callSendTx() {
-      debugger
-      let web3 =  this.$store.state.user.web3.web3Instance
-      if(web3){
-        const testContract = contract(TestAbi)
-        testContract.setProvider(web3.currentProvider);
-        testContract.deployed().then(testContractInstance => {
-          debugger
-          testContractInstance.set(
-            10,
-            { from: '0x7db2dbf23d8b8592b6a9389655ede96e8f01b9b6' }
-          )
-        })
-      }
-    },
+    // callSendTx() {
+    //   debugger
+    //   let web3 =  this.$store.state.user.web3.web3Instance
+    //   if(web3){
+    //     const testContract = contract(TestAbi)
+    //     testContract.setProvider(web3.currentProvider);
+    //     testContract.deployed().then(testContractInstance => {
+    //       debugger
+    //       testContractInstance.set(
+    //         10,
+    //         { from: '0x7db2dbf23d8b8592b6a9389655ede96e8f01b9b6' }
+    //       )
+    //     })
+    //   }
+    // },
 
     showPwd() {
       if (this.pwdType === 'password') {
@@ -147,70 +144,70 @@ export default {
     },
 
 
-    handleLogin() {
-      debugger
-      this.$router.push({ path: '/' });
-      let web3 =  this.$store.state.user.web3.web3Instance
-      // Double-check web3's status.
-      if (typeof web3 !== 'undefined' || web3 !='') {
-        console.log(web3)
-        if(validateMetaMaskConnections(web3)){ 
-              CheckAccount(web3)
-              .then(e=>{
-                  web3.eth.getAccounts((err,newres)=>{
-                    var from = newres[0];
-                    var text = "These are the terms and conditions!"
-                    var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
-                    // var msg = '0x1' // hexEncode(text)
-                    console.log(msg)
-                    console.log('CLICKED, SENDING PERSONAL SIGN REQ')
-                    var params = [msg, from]
-                    var method = 'personal_sign'
+    handleLogin(tokenMessage) {
+      console.log(tokenMessage)
+      this.$router.push({ path: '/dashboard' });
+      // let web3 =  this.$store.state.user.web3.web3Instance
+      // // Double-check web3's status.
+      // if (typeof web3 !== 'undefined' || web3 !='') {
+      //   console.log(web3)
+      //   if(validateMetaMaskConnections(web3)){ 
+      //         CheckAccount(web3)
+      //         .then(e=>{
+      //             web3.eth.getAccounts((err,newres)=>{
+      //               var from = newres[0];
+      //               var text = "These are the terms and conditions!"
+      //               var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
+      //               // var msg = '0x1' // hexEncode(text)
+      //               console.log(msg)
+      //               console.log('CLICKED, SENDING PERSONAL SIGN REQ')
+      //               var params = [msg, from]
+      //               var method = 'personal_sign'
 
-                    web3.currentProvider.sendAsync({
-                    method,
-                    params,
-                    from,
-                    }, (err, result) => {
-                      if (err) return console.error(err)
-                      if (result.error) return console.error(result.error)
-                      console.log('PERSONAL SIGNED:' + JSON.stringify(result.result))
+      //               web3.currentProvider.sendAsync({
+      //               method,
+      //               params,
+      //               from,
+      //               }, (err, result) => {
+      //                 if (err) return console.error(err)
+      //                 if (result.error) return console.error(result.error)
+      //                 console.log('PERSONAL SIGNED:' + JSON.stringify(result.result))
 
-                      console.log('recovering...')
-                      const msgParams = { data: msg }
-                      msgParams.sig = result.result
-                      console.dir({ msgParams })
-                      const recovered = sigUtil.recoverPersonalSignature(msgParams)
-                      console.dir({ recovered })
+      //                 console.log('recovering...')
+      //                 const msgParams = { data: msg }
+      //                 msgParams.sig = result.result
+      //                 console.dir({ msgParams })
+      //                 const recovered = sigUtil.recoverPersonalSignature(msgParams)
+      //                 console.dir({ recovered })
 
-                      if (recovered.toLowerCase() === from.toLowerCase()) {
-                        console.log('SigUtil Successfully verified signer as ' + from)
-                          this.$store.dispatch('Web3Login',recovered).then(() => {
-                          this.loading = false
-                          this.$router.push({ path: '/' })
-                        }).catch(() => {
-                          this.loading = false
-                        })
-                      } else {
+      //                 if (recovered.toLowerCase() === from.toLowerCase()) {
+      //                   console.log('SigUtil Successfully verified signer as ' + from)
+      //                     this.$store.dispatch('Web3Login',recovered).then(() => {
+      //                     this.loading = false
+      //                     this.$router.push({ path: '/' })
+      //                   }).catch(() => {
+      //                     this.loading = false
+      //                   })
+      //                 } else {
 
-                        this.loading = false
-                        console.dir(recovered)
-                        console.log('SigUtil Failed to verify signer when comparing ' + recovered.result + ' to ' + from)
-                        console.log('Failed, comparing %s to %s', recovered, from)
-                      }
-                  })
-                });
-              })
-              .catch(er=>{
-                alert('Login to your Metamask ')
-              })
+      //                   this.loading = false
+      //                   console.dir(recovered)
+      //                   console.log('SigUtil Failed to verify signer when comparing ' + recovered.result + ' to ' + from)
+      //                   console.log('Failed, comparing %s to %s', recovered, from)
+      //                 }
+      //             })
+      //           });
+      //         })
+      //         .catch(er=>{
+      //           alert('Login to your Metamask ')
+      //         })
               
-        }
-        else{alert('Please install Metanask plugin')}
+      //   }
+      //   else{alert('Please install Metanask plugin')}
 
-      } else {
-        console.error('Web3 is not initialized.');
-      }
+      // } else {
+      //   console.error('Web3 is not initialized.');
+      // }
     }
   }
 }

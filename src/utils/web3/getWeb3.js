@@ -7,7 +7,7 @@ const WEB_SOCKET_ADDR = "ws://172.17.2.166:8546";
 
 let getWeb3 = new Promise(function(resolve, reject) {
   window.addEventListener('load', async function(dispatch) {
-    debugger
+    // debugger
     var results
     var web3 = window.web3
     var provider = new HyperSignProvider('http://127.0.0.1:8545')

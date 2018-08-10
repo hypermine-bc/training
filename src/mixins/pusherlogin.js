@@ -32,9 +32,13 @@ export const authservice = {
 	            this.channel.bind('auth-service',function(data){
 	            	that.$emit('incoming_sync_block',data)
 	            })
+	            this.channel.bind('tx-service',function(data){
+	            	console.log('tx-service')
+	            	that.$emit('tx-ex',data)
+	            })
 
 	            this.$on('incoming_sync_block',function(tokenMessage){
-	            	this.handleLogin();
+	            	this.handleLogin(tokenMessage);
 	            })
 
 
