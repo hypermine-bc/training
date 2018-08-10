@@ -87,7 +87,7 @@ export default {
       }
     }
     return {
-      value: '{"id": 21,"direction":"Login"',
+      value: '{"id": 21,"direction":"Login"}',
       size: 300,
       loginForm: {
         username: 'admin',
