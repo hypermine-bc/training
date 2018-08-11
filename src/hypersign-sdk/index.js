@@ -6,8 +6,9 @@ const VmSubprovider = require('web3-provider-engine/subproviders/vm');
 const HookedWalletSubprovider = require('web3-provider-engine/subproviders/hooked-wallet');
 const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker');
 const RpcSubprovider = require('web3-provider-engine/subproviders/rpc');
-//const walletController = require("./controllers/wallet-controller");
+// const walletController = require("./controllers/wallet-controller");
 // const TSIEventEmitter = require("./events/tsi-eventemitter")
+const HSDispatcher = require('./dispatcher/dispatcher.js')
 
 
 
@@ -35,7 +36,7 @@ export  default function HyperSignProvider(rpcAddress)  {
 
 	// id mgmt
 	engine.addProvider(new HookedWalletSubprovider({
-		getAccounts : (cb, walletController) => {
+		getAccounts : (cb) => {
 			debugger
 			// TSIController.getAccounts().then(accounts => {
 				let accounts = ['0x7db2dbf23d8b8592b6a9389655ede96e8f01b9b6']
@@ -45,6 +46,11 @@ export  default function HyperSignProvider(rpcAddress)  {
 		
 		signTransaction : (rawTx, cb) => {
 			debugger
+			// HSDispatcher.default.QREventListener()
+			HSDispatcher.default.QREventGenerator(rawTx)
+			//cb(null, digest);
+			
+
 			/// popup deekhana hai jisme QR aaye 
 			/// use this link : https://davidshimjs.github.io/qrcodejs/ 
 

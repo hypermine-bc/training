@@ -4,6 +4,7 @@ const TransactionListener = require("../listeners/listener");
 const { TX_QR_EVENT } = require("../events");
 // const EventEmitter = require("events").EventEmitter;
 const TSIController = require("./tsi-controller");
+const HSDispatcher = require('../dispatcher/dispatcher.js')
 
 const getAccounts = (cb, walletController) => {
     debugger
@@ -14,6 +15,8 @@ const getAccounts = (cb, walletController) => {
 
 const signTransaction = (rawTx, cb) => {
     debugger
+    HSDispatcher.QREventGenerator(rawTx)
+
     //Create files similar to DBListener for other listeners.
     // Seperated in order to support more listeners like TSI SASS listener
 

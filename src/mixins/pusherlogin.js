@@ -34,12 +34,16 @@ export const authservice = {
 	            })
 	            this.channel.bind('tx-service',function(data){
 	            	console.log('tx-service')
-	            	that.$emit('tx-ex',data)
+	            	that.$emit('tx-service',data)
 	            })
 
 	            this.$on('incoming_sync_block',function(tokenMessage){
 	            	this.handleLogin(tokenMessage);
-	            })
+				})
+				
+				this.$on('tx-service',function(tokenMessage){
+	            	// this.handleLogin(tokenMessage);
+				})
 
 
 				
