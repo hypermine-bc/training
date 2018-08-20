@@ -15,10 +15,12 @@
             <el-upload
               class="upload-demo"
               drag
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action=""
               :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :file-list="fileList"
+              :auto-upload="false"
+              :on-remove="deleteAttachment"
+              :file-list="form.fileList"
+              :on-change="addAttachment"
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
@@ -29,7 +31,7 @@
             <el-input type="textarea" v-model="form.desc"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">Create</el-button>
+            <el-button type="primary" @click="onSubmit()">Create</el-button>
             <el-button @click="onCancel">Cancel</el-button>
           </el-form-item>
         </el-form>
@@ -39,6 +41,7 @@
 </template>
 
 <script>
+import {uploadFile} from '../../utils/utils';
 export default {
   data() {
     return {
@@ -50,13 +53,40 @@ export default {
         delivery: false,
         type: [],
         resource: '',
-        desc: ''
-      }
+        desc: '',
+        fileList : []
+      },
+      fileList : []
     }
   },
-  methods: {
+  methods: {//
     onSubmit() {
-      this.$message('submit!')
+      //show loader....
+      //upload file to ipfs 
+      const file =  this.form.fileList[0]
+      if(file && file.raw){
+        uploadFile(file.raw).then((result, filehash)=>{
+          if(result && result.res){
+            // uplaod the content to blockchain
+            const filehash = result.hash
+            this.$message('submit! file hash is : ' + filehash)
+            console.log('https://ipfs.io/ipfs/' + filehash)
+          }else{
+            // upload unsuccessfull
+          }
+          //hide loader
+        })
+        .catch((err)=>{
+          //hide loader 
+          // print err
+        })
+      }
+    },
+    addAttachment ( file, fileList ) {
+          this.form.fileList.push( file );
+    },
+    deleteAttachment () {
+          // removes from array
     },
     onCancel() {
       this.$message({

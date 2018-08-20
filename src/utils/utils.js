@@ -1,7 +1,7 @@
-import database from "../database";
+// import database from "../database";
 import ipfsAPI from "ipfs-api";
 
-export const IPFS_IP = "172.17.2.204";
+export const IPFS_IP = "127.0.0.1";
 export const CLAPS = "clap";
 export const TRANSACTION_UPLOAD = "UPLOAD";
 export const TRANSACTION_CLAP = "CLAP";
@@ -189,3 +189,29 @@ export const getTransactionList = account => {
         })
     })
 }
+
+export const  uploadFile = (file) => {
+    return new Promise((resolve,reject) =>{
+        const reader = new FileReader();
+        if (!file) return;
+        reader.onloadend = () => {
+            const buffer = Buffer.from(reader.result, 0, reader.result.length);
+            const ipfs = ipfsAPI(IPFS_IP, 5001);
+            const files = [
+                {
+                path: file.name,
+                content: buffer
+                }
+            ];
+            ipfs.files.add(files, function(err, files) {
+                if(files && files[0]){
+                    console.log(files[0].hash);
+                    resolve({res : true, hash : files[0].hash})
+                }else{
+                    reject({res : false})
+                }
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    })
+  }
