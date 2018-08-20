@@ -21,7 +21,6 @@ class HSDispatcher extends EventEmitter {
   
 
     QREventGenerator = (rawTx) =>{
-        debugger
         return new Promise((resolve,reject) => {
           this.emit(TX_QR_EVENT,rawTx) 
           resolve() 
@@ -30,10 +29,8 @@ class HSDispatcher extends EventEmitter {
     }
 
     QREventListener = () => {
-    
         return new Promise((resolve,reject) => {
             this.on(TX_QR_EVENT, (rawTx) => {
-                debugger
                 console.log('Listening to the event')
                 resolve(rawTx)
                 //call from API websocket lsiten 

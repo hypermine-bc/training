@@ -1,4 +1,4 @@
-import database from "../database";
+// import database from "../database";
 import ipfsAPI from "ipfs-api";
 
 export const IPFS_IP = "127.0.0.1";
