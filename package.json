@@ -20,7 +20,11 @@
     "eth-sig-util": "^1.4.2",
     "ethereumjs-util": "^5.1.5",
     "firebase": "^5.3.1",
+<<<<<<< HEAD
     "ipfs-api": "^23.0.0",
+=======
+    "ipfs-api": "^24.0.0",
+>>>>>>> 8b5494bc3d8c08529d21074629c6aa6fd6cd02c4
     "js-cookie": "2.2.0",
     "json-loader": "^0.5.7",
     "normalize.css": "7.0.0",

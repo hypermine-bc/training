@@ -15,7 +15,12 @@
             <el-upload
               class="upload-demo"
               drag
-              :file-list="fileList"
+              action=""
+              :on-preview="handlePreview"
+              :auto-upload="false"
+              :on-remove="deleteAttachment"
+              :file-list="form.fileList"
+              :on-change="addAttachment"
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
@@ -27,7 +32,7 @@
             <el-input type="textarea" v-model="form.desc"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">Create</el-button>
+            <el-button type="primary" @click="onSubmit()">Create</el-button>
             <el-button @click="onCancel">Cancel</el-button>
           </el-form-item>
         </el-form>
@@ -37,17 +42,7 @@
 </template>
 
 <script>
-import contract from  'truffle-contract';
-import TestAbi from '../../../build/contracts/TestContract.json';
-import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
-import QrcodeVue from 'qrcode.vue'
-import ipfsAPI from "ipfs-api"
-
-const VIDEO_ID = "QmPGhxVtNPQsVGrQkTetYbT3fJ2uPDyM3xb1VGK8dzm3fj";
-
-var CryptoJS = require("crypto-js");
-const VIDEO_PATH_PREFIX = './resource'
-const IPFS_IP = '127.0.0.1'
+import {uploadFile} from '../../utils/utils';
 export default {
   components: {
     QrcodeVue
@@ -78,17 +73,42 @@ export default {
         type: [],
         resource: '',
         desc: '',
+        fileList : []
       },
-      fileList:[],
-      value: '{"id": 21,"direction":"Login"}',
-      showQR: false
+      fileList : []
     }
   },
-  methods: {
+  methods: {//
     onSubmit() {
       debugger
       this.callSendTx()
       this.$message('submit!')
+      //show loader....
+      //upload file to ipfs 
+      const file =  this.form.fileList[0]
+      if(file && file.raw){
+        uploadFile(file.raw).then((result, filehash)=>{
+          if(result && result.res){
+            // uplaod the content to blockchain
+            const filehash = result.hash
+            this.$message('submit! file hash is : ' + filehash)
+            console.log('https://ipfs.io/ipfs/' + filehash)
+          }else{
+            // upload unsuccessfull
+          }
+          //hide loader
+        })
+        .catch((err)=>{
+          //hide loader 
+          // print err
+        })
+      }
+    },
+    addAttachment ( file, fileList ) {
+          this.form.fileList.push( file );
+    },
+    deleteAttachment () {
+          // removes from array
     },
     onCancel() {
       this.$message({
