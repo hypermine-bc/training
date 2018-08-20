@@ -32,21 +32,21 @@ export const authservice = {
 	            this.channel.bind('auth-service',function(data){
 	            	that.$emit('incoming_sync_block',data)
 	            })
-	            this.channel.bind('tx-service',function(data){
-	            	console.log('tx-service')
-	            	that.$emit('tx-service',data)
-	            })
+	    //         this.channel.bind('tx-service',function(data){
+					// console.log('tx-service')
+					// console.log(data)
+	    //         	that.$emit('tx-service',data)
+	    //         })
 
 	            this.$on('incoming_sync_block',function(tokenMessage){
+					console.log('on incoming_sync_block event trigger : ' + tokenMessage)
 	            	this.handleLogin(tokenMessage);
 				})
 				
-				this.$on('tx-service',function(tokenMessage){
-	            	// this.handleLogin(tokenMessage);
-				})
-
-
-				
+				// this.$on('tx-service',function(tokenMessage){
+				// 	console.log(tokenMessage)
+				// 	// this.handleLogin(tokenMessage);
+				// })				
 	},
 
 	data(){

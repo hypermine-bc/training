@@ -1,5 +1,5 @@
-var Test = artifacts.require("./TestContract.sol");
+var MediaStore = artifacts.require("./MediaStore.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Test);
+  deployer.deploy(MediaStore);
 };

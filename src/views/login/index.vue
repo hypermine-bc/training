@@ -23,12 +23,12 @@
         <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
           class="card-box login-form">
           <h3 class="title">Decentralized Digital Content</h3>
-          <el-form-item>
-            <qrcode-vue :value="value" :size="500" level="H" v-if = "showQR"></qrcode-vue>
-            <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
-              Send Transaction
-            </el-button>
+          <el-form-item style="background : white">
+            <qrcode-vue :value="value" :size="310" level="H" ></qrcode-vue>
           </el-form-item>
+          <!--<el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
+              Send Transaction
+          </el-button> -->
         </el-form>
       </div>
     </div>
@@ -55,9 +55,9 @@ var sigUtil = require('eth-sig-util')
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
 import {authservice} from '../../mixins/pusherlogin.js'
 
-import contract from  'truffle-contract';
-import TestAbi from '../../../build/contracts/TestContract.json';
-import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
+
+// import  CryptoJS from 'crypto-js'
+var CryptoJS = require("crypto-js");
 
 getWeb3
   .then(results => {
@@ -72,18 +72,6 @@ export default {
     QrcodeVue
   },
   name: 'login',
-  mounted() {
-    let promise = HSDispatcher.QREventListener()
-    promise.then((rawTx) => {
-      debugger
-      console.log(' Inside promise rawTx :  ' + rawTx)
-      this.value =  JSON.stringify(rawTx)
-      this.showQR = true
-
-    }).catch((err) => { 
-      console.log('Error : Error in mounted in login' + err)
-    })
-  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
@@ -117,22 +105,6 @@ export default {
   },
   mixins:[authservice],
   methods: {
-    callSendTx() {
-      debugger
-      let web3 =  this.$store.state.user.web3.web3Instance
-      if(web3){
-        const testContract = contract(TestAbi)
-        testContract.setProvider(web3.currentProvider);
-        testContract.deployed().then(testContractInstance => {
-          debugger
-          testContractInstance.set(
-            10,
-            { from: '0x7db2dbf23d8b8592b6a9389655ede96e8f01b9b6' }
-          )
-        })
-      }
-    },
-
     showPwd() {
       if (this.pwdType === 'password') {
         this.pwdType = ''

@@ -9,7 +9,7 @@ import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  // plugins: [createLogger(),createPersistedState()],
+  plugins: [createLogger(),createPersistedState()],
   modules: {
     app,
     user

@@ -39,43 +39,26 @@ export  default function HyperSignProvider(rpcAddress)  {
 		getAccounts : (cb) => {
 			debugger
 			// TSIController.getAccounts().then(accounts => {
-				let accounts = ['0x7db2dbf23d8b8592b6a9389655ede96e8f01b9b6']
+				let accounts = ['0xe1fa969d685abfb6559657ce0367a767b1652b30']
 			    cb(null, accounts)
 			// }).catch(cb);
 		},
 		
 		signTransaction : (rawTx, cb) => {
 			debugger
-			// HSDispatcher.default.QREventListener()
 			HSDispatcher.default.QREventGenerator(rawTx)
-			//cb(null, digest);
-			
-
-			/// popup deekhana hai jisme QR aaye 
-			/// use this link : https://davidshimjs.github.io/qrcodejs/ 
-
-			
-
-			//Create files similar to DBListener for other listeners.
-			// Seperated in order to support more listeners like TSI SASS listener
-		
-			/// rawTx QR me shohw 
-			/// websocket listener start
-			/// QR ka popup show karo js wala 
-			/// uske peeche me rawTx 
-			
-			/// scan hoga QR ans singned by Mobile 
-			/// web socket will get the singeed message : digest
-			/// cb(null, digest);
-			
-			// const listener = new TransactionListener(txListener);
-			// listener.createTransaction(rawTx)
-			//     .then(id => {
-			//         TSIController.emit(TX_QR_EVENT, id);
-			//         listener.start(id, cb);
-			//     })
+			.then(()=>{
+				HSDispatcher.default.TXEventListener()
+				.then((object)=>{
+					debugger
+					console.log('In SignTransaction method')
+					let digest = '0x' + object.signedRsv.toString('hex')
+					console.log(digest)
+					cb(null, digest);
+				})
+			})
 		}
-	}	));
+	}));
 
 	// data source
 	engine.addProvider(new RpcSubprovider({
