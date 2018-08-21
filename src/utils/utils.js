@@ -1,7 +1,7 @@
 // import database from "../database";
 import ipfsAPI from "ipfs-api";
 
-export const IPFS_IP = "127.0.0.1";
+export const IPFS_IP = "ipfs.infura.io"// "127.0.0.1";
 export const CLAPS = "clap";
 export const TRANSACTION_UPLOAD = "UPLOAD";
 export const TRANSACTION_CLAP = "CLAP";
@@ -196,7 +196,7 @@ export const  uploadFile = (file) => {
         if (!file) return;
         reader.onloadend = () => {
             const buffer = Buffer.from(reader.result, 0, reader.result.length);
-            const ipfs = ipfsAPI(IPFS_IP, 5001);
+            const ipfs = ipfsAPI({ host: IPFS_IP, port: 5001, protocol: 'https' });
             const files = [
                 {
                 path: file.name,

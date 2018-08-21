@@ -39,7 +39,9 @@
     </section>
     <!--- Hello world ---->
   </div>
+  
 </template>
+
 
 <script>
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
@@ -51,9 +53,13 @@ import TestAbi from '../../../build/contracts/TestContract.json';
 import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
 import QrcodeVue from 'qrcode.vue'
 var CryptoJS = require("crypto-js");
+
+
+
 export default {
   components: {
-    QrcodeVue
+    QrcodeVue,
+    PulseLoader
   },
   mounted() {
     debugger
