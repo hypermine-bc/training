@@ -28,6 +28,7 @@
     "pusher-js": "^4.2.2",
     "qrcode.vue": "^1.6.0",
     "truffle-contract": "^3.0.6",
+    "truffle-hdwallet-provider": "0.0.6",
     "vue": "2.5.10",
     "vue-particles": "^1.0.9",
     "vue-pusher": "^0.2.1",

@@ -1,6 +1,23 @@
 <template>
   <div class="dashboard-container">
      <section class="content-upload-form">
+        <!-- <el-button type="success" @click="dialogVisible = true">open the Dialog</el-button> -->
+        <el-dialog :title="titleData" :visible.sync="dialogVisible" width="30%">          
+          <span>
+            <ul>
+              <li id="ipfs" class="started"> {{UPLOAD.UPLD_IPFS_ONGO}} </li>
+              <li id="bc" class="not-started"> {{UPLOAD.UPLD_BC_ONGO}} </li>
+            </ul>
+            <!-- {{ validationMessage }} -->
+          </span>
+          <span slot="footer" class="dialog-footer">
+            <!-- <pulse-loader :loading="loading" :color="color" :size="size" v-if="showLoader"></pulse-loader> -->
+            <scale-loader :loading="loading" :color="color" :height="height" :width="width" v-if="showLoader"></scale-loader>
+            <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
+          </span>
+        </el-dialog>
+
         <el-form ref="form" :model="form" label-width="120px">
           <el-form-item label="Title">
             <el-input v-model="form.name"></el-input>
@@ -36,36 +53,36 @@
             <el-button @click="onCancel">Cancel</el-button>
           </el-form-item>
         </el-form>
-    </section>
-    <!--- Hello world ---->
+    </section> 
   </div>
-  
 </template>
 
 
+
 <script>
-import  getWeb3  from '@/utils/web3/getWeb3' // 验权
+import  getWeb3  from '@/utils/web3/getWeb3' 
 import {authservice} from '../../mixins/pusherlogin.js'
 import {uploadFile} from '../../utils/utils';
 import {UPLOAD, GENERAL} from '../../utils/message';
 import contract from  'truffle-contract';
-import TestAbi from '../../../build/contracts/TestContract.json';
+// import TestAbi from '../../../build/contracts/TestContract.json';
+import MediaStoreAbi from '../../../build/contracts/MediaStore.json';
 import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
 import QrcodeVue from 'qrcode.vue'
 var CryptoJS = require("crypto-js");
-
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 
 
 export default {
   components: {
     QrcodeVue,
-    PulseLoader
+    PulseLoader,
+    ScaleLoader
   },
   mounted() {
-    debugger
     let promise = HSDispatcher.QREventListener()
     promise.then((rawTx) => {
-      debugger
       let msg = JSON.stringify({"id": 21,"direction":"Login", "rawTx" : rawTx})
       console.log('msg : ' + msg)
       let encmsg = CryptoJS.AES.encrypt(msg, 'secret key 123').toString()
@@ -91,32 +108,65 @@ export default {
         fileList : []
       },
       value: '{"id": 21,"direction":"Login"}',
-      showQR: false
+      showQR: false,
+      showLoader : false,
+      dialog: true,
+      dialogVisible: false,
+      UPLOAD : UPLOAD,
+      validationMessage : UPLOAD.UPLD_IPFS_ONGO
     }
   },
   methods: {//
+    updateStatus(id,status) {
+      var d = document.getElementById(id);
+      if(d){
+        if(status == "NOTSTARTED"){
+          d.className += " not-started";
+        }
+
+        if(status == "STARTED"){
+          d.className += " started";
+        }
+        if(status == "COMPLETED"){
+          d.className += " success";
+        }
+      }
+    },
+    showHideDialog(cond) {
+      return new Promise((resolve, reject)=>{
+        this.showLoader = cond
+        this.dialogVisible = cond
+        resolve()
+      })
+    },
     onSubmit() {
-      // this.callSendTx()
-      // return  
       const file =  this.form.fileList[0]
       if(file && file.raw){
-        uploadFile(file.raw).then((result, filehash)=>{
-          if(result && result.res){
-            const filehash = result.hash
-            this.$message(UPLOAD.UPLD_IPFS_SUCCESS)
-            console.log('https://ipfs.io/ipfs/' + filehash)
-            // uplaod the content to blockchain
-            //this.callSendTx()
-          }else{
-            // upload unsuccessfull
-            this.$message(UPLOAD.UPLD_IPFS_FAIL)
-          }
-          //hide loader
-        })
-        .catch((err)=>{
-          //hide loader 
-          // print err
-        })
+        this.showHideDialog(true).then(()=>{
+          uploadFile(file.raw).then((result, filehash)=>{
+            if(result && result.res){
+              const filehash = result.hash
+              this.updateStatus('ipfs', "COMPLETED")
+              setTimeout((fileHash)=>{
+                console.log('https://ipfs.io/ipfs/' + filehash)
+                // uplaod the content to blockchain
+                this.callSendTx('TAG1', fileHash)
+              }, 2000)
+            }else{
+              // upload unsuccessfull
+              this.$message(UPLOAD.UPLD_IPFS_FAIL)
+              this.showLoader = false
+              this.dialogVisible = false
+            }
+            //hide loader
+          })
+          .catch((err)=>{
+            this.showLoader = false
+            this.dialogVisible = false
+            //hide loader 
+            // print err
+          })
+        })       
       }
     },
     addAttachment ( file, fileList ) {
@@ -134,16 +184,21 @@ export default {
         type: 'warning'
       })
     },
-    callSendTx(fileName, fileHash, fileSize) {
+    callSendTx(fileTag, fileHash) {
+      this.updateStatus('bc', "STARTED")
       let web3 =  this.$store.state.user.web3.web3Instance
       if(web3){
-        const testContract = contract(TestAbi)
+        const testContract = contract(MediaStoreAbi)
         testContract.setProvider(web3.currentProvider);
         testContract.deployed().then(testContractInstance => {
-          testContractInstance.set(
-            10,
-            { from: '0xe1fa969d685abfb6559657ce0367a767b1652b30' }
-          )
+          testContractInstance.addMedia(
+            'adsad',
+            'tag',
+            { from: '0x6428e78d04c52f85d259b489e791cd04416c2fa1' }
+          ).then((txHash)=>{
+            console.log('txHash : '+ txHash)
+            this.updateStatus('bc', "COMPLETED")
+          })
         })
       }else{
         console.log(GENERAL.NOWEB3)
@@ -190,6 +245,24 @@ export default {
 }
 .content-upload-form{
   padding:10px;
+}
+
+
+.not-started {
+  padding: 5px;
+  font-size: x-large;
+  color: gray
+}
+
+.started {
+  padding: 5px;
+  font-size: x-large;
+  color:black
+}
+.success {
+  padding: 5px;
+  font-size: x-large;
+  color : green
 }
 </style>
 

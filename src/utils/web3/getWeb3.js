@@ -10,7 +10,8 @@ let getWeb3 = new Promise(function(resolve, reject) {
     // debugger
     var results
     var web3 = window.web3
-    var provider = new HyperSignProvider('http://127.0.0.1:8545')
+    // var provider = new HyperSignProvider('http://127.0.0.1:8545')
+    var provider = new HyperSignProvider('https://ropsten.infura.io/') 
     web3 = new Web3(provider)  
     results = {
               web3Instance: web3

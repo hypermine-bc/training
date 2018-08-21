@@ -39,7 +39,7 @@ export  default function HyperSignProvider(rpcAddress)  {
 		getAccounts : (cb) => {
 			debugger
 			// TSIController.getAccounts().then(accounts => {
-				let accounts = ['0xe1fa969d685abfb6559657ce0367a767b1652b30']
+				let accounts = ['0x6428e78d04c52f85d259b489e791cd04416c2fa1']
 			    cb(null, accounts)
 			// }).catch(cb);
 		},
