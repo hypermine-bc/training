@@ -3,19 +3,7 @@
      <section class="content-upload-form">
         <!-- <el-button type="success" @click="dialogVisible = true">open the Dialog</el-button> -->
         <el-dialog :title="titleData" :visible.sync="dialogVisible" width="30%">          
-          <span>
-            <ul>
-              <li id="ipfs" class="started"> {{UPLOAD.UPLD_IPFS_ONGO}} </li>
-              <li id="bc" class="not-started"> {{UPLOAD.UPLD_BC_ONGO}} </li>
-            </ul>
-            <!-- {{ validationMessage }} -->
-          </span>
-          <span slot="footer" class="dialog-footer">
-            <!-- <pulse-loader :loading="loading" :color="color" :size="size" v-if="showLoader"></pulse-loader> -->
-            <scale-loader :loading="loading" :color="color" :height="height" :width="width" v-if="showLoader"></scale-loader>
-            <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
-          </span>
+          <Signtx></Signtx>
         </el-dialog>
 
         <el-form ref="form" :model="form" label-width="120px">
@@ -43,7 +31,7 @@
               <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
               <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
             </el-upload>
-            <qrcode-vue :value="value" :size="310" level="H" v-if = "showQR"></qrcode-vue>            
+                        
           </el-form-item>
           <el-form-item label="Description">
             <el-input type="textarea" v-model="form.desc"></el-input>
@@ -66,33 +54,35 @@ import {uploadFile} from '../../utils/utils';
 import {UPLOAD, GENERAL} from '../../utils/message';
 import contract from  'truffle-contract';
 // import TestAbi from '../../../build/contracts/TestContract.json';
-import MediaStoreAbi from '../../../build/contracts/MediaStore.json';
-import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
+import MediaStoreAbi from '../../../build/contracts/MediaStore.json'
 import QrcodeVue from 'qrcode.vue'
 var CryptoJS = require("crypto-js");
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
-
+import Signtx from '../../components/signtx/index.vue'
+import {signtxMixin} from '../../mixins/signtx.js'
 
 export default {
   components: {
     QrcodeVue,
     PulseLoader,
-    ScaleLoader
+    ScaleLoader,
+    Signtx
   },
+  mixins:[signtxMixin],
   mounted() {
-    let promise = HSDispatcher.QREventListener()
-    promise.then((rawTx) => {
-      let msg = JSON.stringify({"id": 21,"direction":"Login", "rawTx" : rawTx})
-      console.log('msg : ' + msg)
-      let encmsg = CryptoJS.AES.encrypt(msg, 'secret key 123').toString()
-      this.value = encmsg
-      console.log(this.value)
-      this.showQR = true
+    // let promise = HSDispatcher.QREventListener()
+    // promise.then((rawTx) => {
+    //   let msg = JSON.stringify({"id": 21,"direction":"Login", "rawTx" : rawTx})
+    //   console.log('msg : ' + msg)
+    //   let encmsg = CryptoJS.AES.encrypt(msg, 'secret key 123').toString()
+    //   this.value = encmsg
+    //   console.log(this.value)
+    //   this.showQR = true
 
-    }).catch((err) => { 
-      console.log('Error : Error in mounted in login' + err)
-    })
+    // }).catch((err) => { 
+    //   console.log('Error : Error in mounted in login' + err)
+    // })
   },
   data() {
     return {
@@ -111,6 +101,7 @@ export default {
       showQR: false,
       showLoader : false,
       dialog: true,
+      titleData:"Transaction Module",
       dialogVisible: false,
       UPLOAD : UPLOAD,
       validationMessage : UPLOAD.UPLD_IPFS_ONGO
