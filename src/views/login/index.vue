@@ -132,7 +132,12 @@ export default {
 
     handleLogin(tokenMessage) {
       console.log(tokenMessage)
-      this.$router.push({ path: '/dashboard' });
+      this.$store.dispatch('SetInfo',tokenMessage.currentUser)
+      .then(e=>{
+        debugger
+        this.$router.push({ path: '/dashboard' });
+      })
+      
       // let web3 =  this.$store.state.user.web3.web3Instance
       // // Double-check web3's status.
       // if (typeof web3 !== 'undefined' || web3 !='') {

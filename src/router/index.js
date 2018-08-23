@@ -24,6 +24,7 @@ export const constantRouterMap = [
 
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
+  // { path: '/api/feed/', component: () => import('@/utlis/feeddata.json'), hidden: true },
   {
     path: '/',
     component: Layout,
@@ -66,10 +67,22 @@ export const constantRouterMap = [
         meta: { title: 'Trending', icon: 'headphones' }
       },
       {
+        path: 'bhojpuri',
+        name: 'Bhojpuri',
+        component: () => import('@/views/feed/index'),
+        meta: { title: 'Bhojpuri', icon: 'headphones' }
+      },
+      {
         path: 'bhangra',
         name: 'Bhangra',
         component: () => import('@/views/feed/index'),
         meta: { title: 'Bhangra', icon: 'headphones' }
+      },
+      {
+        path: 'bluesjazz',
+        name: 'Blues/Jazz',
+        component: () => import('@/views/feed/index'),
+        meta: { title: 'Blues/Jazz', icon: 'headphones' }
       }
     ]
   },

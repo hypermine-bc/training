@@ -39,7 +39,7 @@ export const authservice = {
 	    //         })
 
 	            this.$on('incoming_sync_block',function(tokenMessage){
-					console.log('on incoming_sync_block event trigger : ' + tokenMessage)
+					// console.log('on incoming_sync_block event trigger : ' + tokenMessage)
 	            	this.handleLogin(tokenMessage);
 				})
 				

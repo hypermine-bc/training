@@ -6,12 +6,13 @@
           <el-row class="card_box_main" :gutter="30">
             <el-col v-for="(video, index) in feed.video_list" :md="4" :key="index" class="card_box">
               <el-card style="padding:0px" shadow="hover" >
-                    <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image">
+                    <!-- <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image"> -->
+                    <img :src="video.thumb_nail" class="image" style="min-height:200px;min-width:200px">
                       <div style="padding: 14px;">
                         <span>{{video.title}}</span>
                         <div class="bottom clearfix">
                           <time class="time">{{ video.timeStamp }}</time>
-                          <el-button type="text" class="button">Operating button</el-button>
+                          <el-button type="text" class="button" @click="gotoFeed(feed.category.router)">View</el-button>
                         </div>
                       </div>
                   </el-card>
@@ -128,7 +129,7 @@
 </style>
 <script>
 import { mapGetters } from 'vuex'
-
+// import feed from '../../utlis/feeddata.json'
 export default {
   name: 'dashboard',
   computed: {
@@ -137,14 +138,23 @@ export default {
       'roles'
     ])
   },
+  methods:{
+    gotoFeed(topic){
+     let newTopic = '/feed/'+topic.toLowerCase()
+     console.log(newTopic)
+     
+      this.$router.push(newTopic)
+    }
+  },
   data(){
     return {
-        feeds:[{ category:{topic:"Trending",subtopic:""},
+        feeds:[{ category:{topic:"Trending",subtopic:"",router:'Trending'},
                 video_list:[
-                  {
-                    title:"Title 1",
+                   {
+                    title:"Title 3",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"http://www.artifilmsmp3.com/wp-content/uploads/2016/01/2-Pooja-Ke-Thali-leke-470x470.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
@@ -152,31 +162,30 @@ export default {
                     title:"Title 2",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://i.ytimg.com/vi/6Z0knzjibm8/maxresdefault.jpg",
                     views:"4 million",
                     timeStamp:"last month"
-                  },{
+                  },
+                 {
                     title:"Title 3",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },{
-                    title:"Title 4",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
+                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },{
                     title:"Title 5",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://4.bp.blogspot.com/-MpV20i_QWkY/V5ZDxVr9NKI/AAAAAAAAGn4/i-qnybntX78zsEWvWLtek9ytuZZ-Gyf2QCLcB/s640/kanwatr-ke-power-dinesh-lal-yadav-amarpali-dunbey.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
                   {
-                    title:"Title 6",
+                    title:"Title 3",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
@@ -184,6 +193,7 @@ export default {
                     title:"Title 7",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
@@ -191,17 +201,19 @@ export default {
                     title:"Title 8",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   }
               ],
 
       },
-      { category:{topic:"T-Series",subtopic:"Recommended topic"},
+      { category:{topic:"Bhangra",subtopic:"Recommended topic",router:'Bhangra'},
                 video_list:[
                   {
                     title:"Title 1",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
                     description:"Hi I am the description og the video",
                     views:"4 million",
                     timeStamp:"last month"
@@ -210,6 +222,7 @@ export default {
                     title:"Title 2",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://i.ytimg.com/vi/6Z0knzjibm8/maxresdefault.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
@@ -217,17 +230,19 @@ export default {
                     title:"Title 3",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"http://rinay.weebly.com/uploads/2/4/0/6/24061878/903337265.jpg?373",
                     views:"4 million",
                     timeStamp:"last month"
                   }
               ],
       },
-      { category:{topic:"M-TV",subtopic:"Recommended topic"},
+      { category:{topic:"Bhojpuri",subtopic:"Recommended topic",router:'Bhojpuri'},
                 video_list:[
                   {
                     title:"Title 1",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://4.bp.blogspot.com/-MpV20i_QWkY/V5ZDxVr9NKI/AAAAAAAAGn4/i-qnybntX78zsEWvWLtek9ytuZZ-Gyf2QCLcB/s640/kanwatr-ke-power-dinesh-lal-yadav-amarpali-dunbey.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
@@ -235,6 +250,7 @@ export default {
                     title:"Title 2",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"https://highonscore.com/wp-content/uploads/2012/10/p16i72ds6v15th1cfe1b3715d2t163-1.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   },
@@ -242,6 +258,35 @@ export default {
                     title:"Title 3",
                     url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
                     description:"Hi I am the description og the video",
+                    thumb_nail:"http://www.artifilmsmp3.com/wp-content/uploads/2016/01/2-Pooja-Ke-Thali-leke-470x470.jpg",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  }
+              ],
+      },
+      { category:{topic:"Blues/Jazz",subtopic:"Recommended topic",router:'bluesjazz'},
+                video_list:[
+                  {
+                    title:"Title 1",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    thumb_nail:"https://s.hswstatic.com/gif/jazz-6.jpg",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 2",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    thumb_nail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHY7QIFMqIWqOI7QNqAJSQFHejRkj58C_1jJjK7_afEJ9jALig",
+                    views:"4 million",
+                    timeStamp:"last month"
+                  },
+                  {
+                    title:"Title 3",
+                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
+                    description:"Hi I am the description og the video",
+                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
                     views:"4 million",
                     timeStamp:"last month"
                   }
@@ -249,6 +294,7 @@ export default {
       }]
     } 
   }
+  
 }
 </script>
 
