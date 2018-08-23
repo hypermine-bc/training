@@ -5,8 +5,10 @@ const user = {
   state: {
     token: getToken(),
     name: '',
+    user_img:'',
     avatar: '',
     roles: [],
+    usr_details:{},
     web3:''
   },
 
@@ -16,6 +18,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_USR_DETAILS: (state, name) => {
+      state.usr_details = name
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -94,6 +99,18 @@ const user = {
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+    SetInfo({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        try{
+          commit('SET_USR_DETAILS', data.name)
+          resolve(true)
+        }
+        catch(err){
+          resolve(false)
+        }
+          
       })
     },
 

@@ -6,14 +6,23 @@
           <Signtx></Signtx>
         </el-dialog>
 
-        <el-form ref="form" :model="form" label-width="120px">
+        <el-form ref="form" :model="form" style="margin: 20px; width: 60%; min-width: 600px;" label-width="120px">
           <el-form-item label="Title">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="Tags">
-            <el-select v-model="form.region" placeholder="please select your zone">
-              <el-option label="India" value="india"></el-option>
-              <el-option label="China" value="china"></el-option>
+            <el-select v-model="form.tag" placeholder="please select your tag">
+              <el-option label="Image" value="image"></el-option>
+              <el-option label="Music" value="music"></el-option>
+              <el-option label="File" value="file"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Sub-Tags">
+            <el-select v-model="form.subtag" placeholder="please select sub tag">
+              <el-option label="Bhangra" value="bhangra"></el-option>
+              <el-option label="Bhojpuri" value="bhojpuri"></el-option>
+              <el-option label="Rocknroll" value="rocknroll"></el-option>
+              <el-option label="Blus/jazz" value="blus_jazz"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -107,22 +116,7 @@ export default {
       validationMessage : UPLOAD.UPLD_IPFS_ONGO
     }
   },
-  methods: {//
-    updateStatus(id,status) {
-      var d = document.getElementById(id);
-      if(d){
-        if(status == "NOTSTARTED"){
-          d.className += " not-started";
-        }
-
-        if(status == "STARTED"){
-          d.className += " started";
-        }
-        if(status == "COMPLETED"){
-          d.className += " success";
-        }
-      }
-    },
+  methods: {
     showHideDialog(cond) {
       return new Promise((resolve, reject)=>{
         this.showLoader = cond

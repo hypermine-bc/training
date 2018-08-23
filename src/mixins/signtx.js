@@ -26,6 +26,15 @@ export const signtxMixin = {
      	 }
  	},
 	methods:{
+		resetForm() {
+        console.log('Reseting the form')
+        var self = this; //you need this because *this* will refer to Object.keys below`
+
+        //Iterate through each object field, key is name of the object field`
+        Object.keys(this.form).forEach(function(key,index) {
+          self.form[key] = '';
+        });
+      },
 		updateStatus(id,status) {
 	      var d = document.getElementById(id);
 	      if(d){
