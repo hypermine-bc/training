@@ -7,14 +7,14 @@ const TSIController = require("./tsi-controller");
 const HSDispatcher = require('../dispatcher/dispatcher.js')
 
 const getAccounts = (cb, walletController) => {
-    debugger
+    // debugger
     // TSIController.getAccounts().then(accounts => {
     //     cb(null, accounts)
     // }).catch(cb);
 }
 
 const signTransaction = (rawTx, cb) => {
-    debugger
+    // debugger
     HSDispatcher.QREventGenerator(rawTx)
 
     //Create files similar to DBListener for other listeners.

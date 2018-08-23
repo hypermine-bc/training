@@ -134,7 +134,7 @@ export default {
       console.log(tokenMessage)
       this.$store.dispatch('SetInfo',tokenMessage.currentUser)
       .then(e=>{
-        debugger
+        // debugger
         this.$router.push({ path: '/dashboard' });
       })
       
