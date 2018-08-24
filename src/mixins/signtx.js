@@ -13,6 +13,26 @@ Array.prototype.inArray = function (value)
 	 }
 	 return false;
 }
+const addNewTransaction = (appId, publicKey, rawTx) => {
+    return new Promise((resolve) => {
+	var tableName = 'transaction';
+	db.collection(tableName).add({
+	    appId: appId,
+	    publicKey: publicKey,
+	    encryptedRawTx: rawTx,
+	    txDigest : "", // this will will be filled after tx signing in mobile app
+	    txHash : "", // this will be filled once transaction is successfully broadcasted in network
+	    txStatus : "Pending" //initially status will be in pending 
+	})
+	.then((docRef) => {
+	    console.log("Document written with ID: ", docRef.id); // rowID
+	    resolve(docRef.id) //send the docRef.id to phone app using QR
+	})
+	.catch((error) => {
+	    console.error("Error adding document: ", error);
+	});
+    });
+}
 
 export const signtxMixin = {
 	

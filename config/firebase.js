@@ -1,6 +1,3 @@
-const firebase = require("firebase");
-// Required for side-effects
-require("firebase/firestore");
 // Initiation 
  var config = {
     apiKey: "AIzaSyAySmXtzzoLlNnPtSw1p6L1dzeCmBpnY_Y",
@@ -10,6 +7,8 @@ require("firebase/firestore");
     storageBucket: "hypersign-e0a0d.appspot.com",
     messagingSenderId: "795005676642"
   };
+
+const firebase = require("firebase");
 
 firebase.initializeApp(config);
 const database = firebase.firestore();

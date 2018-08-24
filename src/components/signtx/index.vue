@@ -19,11 +19,10 @@
   </div>
 </template>
 
-
-
 <script>
 import {UPLOAD, GENERAL} from '../../utils/message'
 import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
+import HSController from '../../hypersign-sdk/controllers/hsi-controller.js'
 import QrcodeVue from 'qrcode.vue'
 var CryptoJS = require("crypto-js");
 
@@ -34,12 +33,7 @@ export default {
   mounted() {
     let promise = HSDispatcher.QREventListener()
     promise.then((rawTx) => {
-      let msg = JSON.stringify({"id": 21,"direction":"registration", "rawTx" : rawTx})
-      console.log('msg : ' + msg)
-      let encmsg = CryptoJS.AES.encrypt(msg, 'secret key 123').toString()
-      this.value = encmsg
-      console.log(this.value)
-      this.showQR = true
+      this.makeTransaction(rawTx)
     }).catch((err) => { 
       console.log('Error : Error in mounted in login' + err)
     })
@@ -52,11 +46,26 @@ export default {
       dialog: true,
       dialogVisible: false,
       UPLOAD : UPLOAD,
+      appId:21,
       validationMessage : UPLOAD.UPLD_IPFS_ONGO
     }
   },
   methods: {//
-    
+    makeTransaction(rawTx){
+      let msg = JSON.stringify({"id": this.appId,"direction":"registration", "rawTx" : rawTx})
+      let encmsg = CryptoJS.AES.encrypt(msg, 'secret key 123').toString()
+      let promise = HSController.addNewTransaction(this.appId, "publicKey", encmsg)
+      promise
+      .then((id)=>{
+          this.value = id
+          console.log(this.value)
+          this.showQR = true
+      })
+      .catch((err)=>{
+        console.log('Something wrong in tx')
+      })
+
+    }
   }
 }
 </script>

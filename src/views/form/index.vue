@@ -171,6 +171,7 @@ export default {
     },
     callSendTx(fileTag, fileHash) {
       this.updateStatus('bc', "STARTED")
+      debugger
       let web3 =  this.$store.state.user.web3.web3Instance
       if(web3){
         const testContract = contract(MediaStoreAbi)
@@ -179,7 +180,7 @@ export default {
           testContractInstance.addMedia(
             'adsad',
             'tag',
-            { from: '0x6428e78d04c52f85d259b489e791cd04416c2fa1' }
+            { from: '0x87cbccfb3726e4425c6ce513bae544777d486cc0' }
           ).then((txHash)=>{
             console.log('txHash : '+ txHash)
             this.updateStatus('bc', "COMPLETED")

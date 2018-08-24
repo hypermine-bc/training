@@ -37,15 +37,15 @@ export  default function HyperSignProvider(rpcAddress)  {
 	// id mgmt
 	engine.addProvider(new HookedWalletSubprovider({
 		getAccounts : (cb) => {
-			debugger
+			// debugger
 			// TSIController.getAccounts().then(accounts => {
-				let accounts = ['0x6428e78d04c52f85d259b489e791cd04416c2fa1']
+				let accounts = ['0x87cbccfb3726e4425c6ce513bae544777d486cc0']
 			    cb(null, accounts)
 			// }).catch(cb);
 		},
-		
 		signTransaction : (rawTx, cb) => {
 			debugger
+			rawTx.gasLimit = rawTx.gas
 			HSDispatcher.default.QREventGenerator(rawTx)
 			.then(()=>{
 				HSDispatcher.default.TXEventListener()

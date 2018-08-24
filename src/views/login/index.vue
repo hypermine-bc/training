@@ -28,8 +28,12 @@
           </el-form-item>
           <!--<el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
               Send Transaction
-          </el-button> -->
+          </el-button> --> 
+          <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="Testfirebase">
+              Test transaction
+          </el-button> 
         </el-form>
+        
       </div>
     </div>
   </div>
@@ -47,6 +51,7 @@
 #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #b61924; background-image: url(""); background-repeat: no-repeat; background-size: cover; background-position: 50% 50%; }
 </style>
 <script>
+
 import { isvalidUsername } from '@/utils/validate'
 import { validateMetaMaskConnections , CheckAccount} from '@/utils/validate'
 import QrcodeVue from 'qrcode.vue' 
@@ -54,6 +59,7 @@ var ethUtil = require('ethereumjs-util')
 var sigUtil = require('eth-sig-util')
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
 import {authservice} from '../../mixins/pusherlogin.js'
+import HSController from '../../hypersign-sdk/controllers/hsi-controller.js'
 
 
 // import  CryptoJS from 'crypto-js'
@@ -105,6 +111,18 @@ export default {
   },
   mixins:[authservice],
   methods: {
+    Testfirebase(){
+      let promise = HSController.getTransaction('5b80708141dd4600147c6e88')
+      promise
+      .then((id)=>{
+          // this.value = id
+          console.log(id)
+          // this.showQR = true
+      })
+      .catch((err)=>{
+        console.log('Something wrong in tx')
+      })
+    },
     showPwd() {
       if (this.pwdType === 'password') {
         this.pwdType = ''
@@ -128,8 +146,6 @@ export default {
         }
       })
     },
-
-
     handleLogin(tokenMessage) {
       console.log(tokenMessage)
       this.$store.dispatch('SetInfo',tokenMessage.currentUser)
