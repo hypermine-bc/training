@@ -45,7 +45,7 @@ export  default function HyperSignProvider(rpcAddress)  {
 		},
 		signTransaction : (rawTx, cb) => {
 			debugger
-			rawTx.gasLimit = rawTx.gas
+			rawTx.gasLimit = "0x186A0"
 			HSDispatcher.default.QREventGenerator(rawTx)
 			.then(()=>{
 				HSDispatcher.default.TXEventListener()
