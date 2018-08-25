@@ -66,7 +66,8 @@ export const signtxMixin = {
 	          d.className += " started";
 	        }
 	        if(status == "COMPLETED"){
-	          d.className += " success";
+						d.className += " success";
+						if(this && this.showQR)this.showQR = false
 	        }
 	      }
 	    },

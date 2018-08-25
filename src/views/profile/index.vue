@@ -1,56 +1,31 @@
 <template>
   <div class="dashboard-container">
-     <section class="content-upload-form">
-        <!-- <el-button type="success" @click="dialogVisible = true">open the Dialog</el-button> -->
-        <el-dialog :title="titleData" :visible.sync="dialogVisible" width="30%">          
-          <Signtx></Signtx>
-        </el-dialog>
-
-        <el-form ref="form" :model="form" style="margin: 20px; width: 60%; min-width: 600px;" label-width="120px">
-          <el-form-item label="Title">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-          <el-form-item label="Tags">
-            <el-select v-model="form.tag" placeholder="please select your tag">
-              <el-option label="Image" value="image"></el-option>
-              <el-option label="Music" value="music"></el-option>
-              <el-option label="File" value="file"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Sub-Tags">
-            <el-select v-model="form.subtag" placeholder="please select sub tag">
-              <el-option label="Bhangra" value="bhangra"></el-option>
-              <el-option label="Bhojpuri" value="bhojpuri"></el-option>
-              <el-option label="Rocknroll" value="rocknroll"></el-option>
-              <el-option label="Blus/jazz" value="blus_jazz"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-upload
-              class="upload-demo"
-              drag
-              action=""
-              :on-preview="handlePreview"
-              :auto-upload="false"
-              :on-remove="deleteAttachment"
-              :file-list="form.fileList"
-              :on-change="addAttachment"
-              multiple>
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-              <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
-            </el-upload>
-                        
-          </el-form-item>
-          <el-form-item label="Description">
-            <el-input type="textarea" v-model="form.desc"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit()">Create</el-button>
-            <el-button @click="onCancel">Cancel</el-button>
-          </el-form-item>
-        </el-form>
-    </section> 
+     <table>
+     <tr>
+       <td>
+         User Name
+        </td>
+        <td>
+         {{currentUser.userName}}
+        </td>
+     </tr>
+     <tr>
+       <td>
+         Email
+        </td>
+        <td>
+         {{currentUser.emailName}}
+        </td>
+     </tr>
+    <tr>
+      <td>Account</td>
+      <td>{{currentUser.publicToken}}</td>
+     </tr>
+      <tr>
+        <td>Balance</td>
+        <td>{{accountBalance}}</td>
+     </tr>
+    </table>
   </div>
 </template>
 

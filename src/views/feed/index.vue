@@ -140,7 +140,8 @@
 </style>
 <script>
 import { mapGetters } from 'vuex'
-
+import TestAbi from '../../../build/contracts/TestContract.json';
+import contract from  'truffle-contract';
 export default {
   name: 'dashboard',
   computed: {
@@ -148,6 +149,58 @@ export default {
       'name',
       'roles'
     ])
+  },
+  mounted() {
+    debugger
+    let web3 =  this.$store.state.user.web3.web3Instance
+    if(web3){
+      const testContract = contract(TestAbi)
+      testContract.setProvider(web3.currentProvider);
+      testContract.deployed().then(testContractInstance => {
+        testContractInstance.getAllMediaIds(
+          { from: '0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8' }
+        ).then((result)=>{
+          debugger
+          if(result && result[0] && result[1]){
+            if(result[1] > 0){
+              const mediaIds = result[0]
+              if(mediaIds){
+                const ipfsHashes = mediaIds.split('|')
+                if(ipfsHashes && ipfsHashes.length > 0){
+                  let videoList = []
+                  ipfsHashes.forEach((element, index) => {
+                    let videoObj = {
+                      title : 'Title' + index,
+                      url : 'https://ipfs.io/ipfs/' + element,
+                      description : 'Some random description',                      
+                      thumb_nail : 'https://ipfs.io/ipfs/' + element,
+                      views:"4 million",
+                      timeStamp:"last month"
+                    } 
+                    videoList.push(videoObj)
+                    console.log(videoObj)
+                    if(index == ipfsHashes.length -1){
+                    }
+                  });
+                  this.feeds[0].video_list = videoList && videoList.length > 0 ?videoList  :this.feeds[0].video_list                  
+                }else{
+                  console.log("Inside else of ipfsHashes && ipfsHashes.length > 0")
+                }
+              }else{
+                console.log("Inside else of mediaIds")
+              }
+            }else{
+              console.log("Inside else of result[1] > 0")
+            }
+          }else{
+            console.log("Inside else of result && result[0] && result[1]")
+          }
+          console.log(result)
+        })
+      })
+    }else{
+      console.log(GENERAL.NOWEB3)
+    }
   },
   data(){
     return {
@@ -210,92 +263,8 @@ export default {
                     timeStamp:"last month"
                   }
               ],
-
-      },
-      { category:{topic:"Bhangra",subtopic:"Recommended topic"},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://i.ytimg.com/vi/6Z0knzjibm8/maxresdefault.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"http://rinay.weebly.com/uploads/2/4/0/6/24061878/903337265.jpg?373",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      },
-      { category:{topic:"Bhojpuri",subtopic:"Recommended topic"},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://4.bp.blogspot.com/-MpV20i_QWkY/V5ZDxVr9NKI/AAAAAAAAGn4/i-qnybntX78zsEWvWLtek9ytuZZ-Gyf2QCLcB/s640/kanwatr-ke-power-dinesh-lal-yadav-amarpali-dunbey.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://highonscore.com/wp-content/uploads/2012/10/p16i72ds6v15th1cfe1b3715d2t163-1.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"http://www.artifilmsmp3.com/wp-content/uploads/2016/01/2-Pooja-Ke-Thali-leke-470x470.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      },
-      { category:{topic:"Blues/Jazz",subtopic:"Recommended topic"},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://s.hswstatic.com/gif/jazz-6.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHY7QIFMqIWqOI7QNqAJSQFHejRkj58C_1jJjK7_afEJ9jALig",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      }]
+      }
+      ]
       
     }
 

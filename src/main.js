@@ -26,6 +26,12 @@ Vue.use(ElementUI, { locale })
 Vue.use(VueParticles)
 Vue.config.productionTip = false
 
+// export const globalStore = new Vue({
+//   data: {
+//     userDetails: {}
+//   }
+// })
+
 new Vue({
   el: '#app',
   router,

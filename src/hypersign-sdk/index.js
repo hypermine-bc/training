@@ -13,7 +13,6 @@ const HSDispatcher = require('./dispatcher/dispatcher.js')
 
 
 export  default function HyperSignProvider(rpcAddress)  {
-	
 	var engine = new ProviderEngine();
 	engine.addProvider(new FixtureSubprovider({
 		web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
@@ -39,13 +38,13 @@ export  default function HyperSignProvider(rpcAddress)  {
 		getAccounts : (cb) => {
 			// debugger
 			// TSIController.getAccounts().then(accounts => {
-				let accounts = ['0x16dccb5002d4152ade413b1e8786bfa4eb37f4e9']
+				let accounts = ['0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8', '0x79c2d9e000dcf67cae1a94ff6e4a61be256f95a9']
 			    cb(null, accounts)
 			// }).catch(cb);
 		},
 		signTransaction : (rawTx, cb) => {
 			debugger
-			rawTx.gasLimit = "0x186A0"
+			rawTx.gasLimit = "0x2DC6C0"
 			HSDispatcher.default.QREventGenerator(rawTx)
 			.then(()=>{
 				HSDispatcher.default.TXEventListener()
