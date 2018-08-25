@@ -180,7 +180,7 @@ export default {
           testContractInstance.addMedia(
             'adsad',
             'tag',
-            { from: '0x87cbccfb3726e4425c6ce513bae544777d486cc0' }
+            { from: '0x16dccb5002d4152ade413b1e8786bfa4eb37f4e9' }
           ).then((txHash)=>{
             console.log('txHash : '+ txHash)
             this.updateStatus('bc', "COMPLETED")
