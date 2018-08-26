@@ -158,11 +158,11 @@ export default {
       testContract.setProvider(web3.currentProvider);
       testContract.deployed().then(testContractInstance => {
         testContractInstance.getAllMediaIds(
-          { from: '0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8' }
+          { from: '' }
         ).then((result)=>{
           debugger
           if(result && result[0] && result[1]){
-            if(result[1] > 0){
+            if(result[1] > 0){0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8
               const mediaIds = result[0]
               if(mediaIds){
                 const ipfsHashes = mediaIds.split('|')

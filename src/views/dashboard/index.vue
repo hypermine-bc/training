@@ -6,7 +6,7 @@
             <el-row class="card_box_main" :gutter="30" >
               <el-col v-for="(video, index) in feed.video_list" :md="4" :key="index" class="card_box">
                 <el-card style="padding:0px" shadow="hover" >
-                  <img :src="video.thumb_nail" class="image" style="min-height:200px;max-width:200px">
+                  <img :src="video.thumb_nail" class="image" style="width:100%;">
                   <div style="padding: 5px;">
                     <span>{{video.title}}</span>
                     <div class="bottom clearfix">

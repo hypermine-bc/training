@@ -62,9 +62,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'trending',
-        name: 'Trending',
+        name: 'Market Place',
         component: () => import('@/views/feed/index'),
-        meta: { title: 'Trending', icon: 'headphones' }
+        meta: { title: 'Market Place', icon: 'cart-plus' }
       },
       // {
       //   path: 'bhojpuri',
@@ -78,12 +78,12 @@ export const constantRouterMap = [
       //   component: () => import('@/views/feed/index'),
       //   meta: { title: 'Bhangra', icon: 'headphones' }
       // },
-      {
-        path: 'bluesjazz',
-        name: 'Blues/Jazz',
-        component: () => import('@/views/feed/index'),
-        meta: { title: 'Blues/Jazz', icon: 'headphones' }
-      }
+      // {
+      //   path: 'bluesjazz',
+      //   name: 'Blues/Jazz',
+      //   component: () => import('@/views/feed/index'),
+      //   meta: { title: 'Blues/Jazz', icon: 'headphones' }
+      // }
     ]
   },
   {
@@ -106,7 +106,7 @@ export const constantRouterMap = [
         path: '/index',
         name: 'User Profile',
         component: () => import('@/views/profile/index'),
-        meta: { title: 'User Profile', icon: 'form' }
+        meta: { title: 'User Profile', icon: 'user' }
       }
     ]
   },

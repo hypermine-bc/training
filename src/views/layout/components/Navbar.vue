@@ -45,8 +45,8 @@ export default {
   data(){
     return{
       imageLink:"https://www.yourfirstpatient.com/assets/default-user-avatar-thumbnail-117c4e02d0bee9a424842ebb2a903cf71468999f79ce30bad99c07f100764064.png",
-      currentUser : window.currentUser 
-    }
+      currentUser :currentUser,
+      }
   },
   computed: {
     ...mapGetters([

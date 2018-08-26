@@ -149,7 +149,9 @@ export default {
     },
     handleLogin(tokenMessage) {
       console.log(tokenMessage)
-      if(tokenMessage)
+      if(tokenMessage){
+        localStorage.setItem("currentUser",JSON.stringify(tokenMessage));
+      }
         window.currentUser =  tokenMessage.currentUser
       this.$store.dispatch('SetInfo',tokenMessage.currentUser)
       .then(e=>{

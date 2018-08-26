@@ -36,9 +36,9 @@ export  default function HyperSignProvider(rpcAddress)  {
 	// id mgmt
 	engine.addProvider(new HookedWalletSubprovider({
 		getAccounts : (cb) => {
-			// debugger
+			debugger
 			// TSIController.getAccounts().then(accounts => {
-				let accounts = ['0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8', '0x79c2d9e000dcf67cae1a94ff6e4a61be256f95a9']
+				let accounts = ['0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8','0x16dccb5002d4152ade413b1e8786bfa4eb37f4e9','0x79c2d9e000dcf67cae1a94ff6e4a61be256f95a9']
 			    cb(null, accounts)
 			// }).catch(cb);
 		},
