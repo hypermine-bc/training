@@ -4,16 +4,26 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
+        <div style="padding-bottom : 1px; float:left ; padding-left : 1px;">
+          <b>Welcome {{currentUser.userName}} !</b>  
+        </div>  
         <!--<img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">-->
         <img class="user-avatar" src="https://www.yourfirstpatient.com/assets/default-user-avatar-thumbnail-117c4e02d0bee9a424842ebb2a903cf71468999f79ce30bad99c07f100764064.png">
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
-        <router-link class="inlineBlock" to="/">
-          <el-dropdown-item>
-            Home
+        <!-- <router-link class="inlineBlock"  to=""> -->
+          <el-dropdown-item >
+            <span @click="goToProfile"> PROFILE</span>
           </el-dropdown-item>
-        </router-link>
+        <!-- </router-link> -->
+          <el-dropdown-item>
+            {{currentUser.userName}}
+          </el-dropdown-item>
+          <el-dropdown-item>
+            {{currentUser.userEmail}}
+          </el-dropdown-item>
+        
         <el-dropdown-item divided>
           <span @click="logout" style="display:block;">LogOut</span>
         </el-dropdown-item>
@@ -34,8 +44,9 @@ export default {
   },
   data(){
     return{
-      imageLink:"https://www.yourfirstpatient.com/assets/default-user-avatar-thumbnail-117c4e02d0bee9a424842ebb2a903cf71468999f79ce30bad99c07f100764064.png"
-    }
+      imageLink:"https://www.yourfirstpatient.com/assets/default-user-avatar-thumbnail-117c4e02d0bee9a424842ebb2a903cf71468999f79ce30bad99c07f100764064.png",
+      currentUser :currentUser,
+      }
   },
   computed: {
     ...mapGetters([
@@ -52,6 +63,10 @@ export default {
       this.$store.dispatch('LogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
+    },
+    goToProfile(){
+      this.$router.push('/profile')
+
     }
   }
 }

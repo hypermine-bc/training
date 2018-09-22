@@ -3,22 +3,22 @@
     <section v-for="feed in feeds" class="vid-category">
         <div class="vid-category-header"><i class="el-icon-service"></i>{{feed.category.topic}} - <span class="time">{{feed.category.subtopic}}</span></div>
           <div class="grid-content">
-          <el-row class="card_box_main" :gutter="30">
-            <el-col v-for="(video, index) in feed.video_list" :md="4" :key="index" class="card_box">
-              <el-card style="padding:0px" shadow="hover" >
-                    <!-- <img src="http://element.eleme.io/static/hamburger.50e4091.png" class="image"> -->
-                    <img :src="video.thumb_nail" class="image" style="min-height:200px;min-width:200px">
-                      <div style="padding: 14px;">
-                        <span>{{video.title}}</span>
-                        <div class="bottom clearfix">
-                          <time class="time">{{ video.timeStamp }}</time>
-                          <el-button type="text" class="button" @click="gotoFeed(feed.category.router)">View</el-button>
-                        </div>
-                      </div>
-                  </el-card>
-            </el-col>
-          </el-row>
+            <el-row class="card_box_main" :gutter="30" >
+              <el-col v-for="(video, index) in feed.video_list" :md="4" :key="index" class="card_box">
+                <el-card style="padding:0px" shadow="hover" >
+                  <img :src="video.thumb_nail" class="image" style="width:100%;">
+                  <div style="padding: 5px;">
+                    <span>{{video.title}}</span>
+                    <div class="bottom clearfix">
+                      <time class="time">{{ video.timeStamp }}</time>
+                      <el-button type="text" class="button" @click="gotoFeed(feed.category.router)">View</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
           </div>
+          <loading :show="loaderShow" :label="loaderLabel"></loading>
     </section>
   </div>
 </template>
@@ -129,14 +129,83 @@
 </style>
 <script>
 import { mapGetters } from 'vuex'
-// import feed from '../../utlis/feeddata.json'
+import TestAbi from '../../../build/contracts/TestContract.json';
+import contract from  'truffle-contract';
+import loading from 'vue-full-loading'
+
 export default {
   name: 'dashboard',
+  components: {
+    loading
+  },
   computed: {
     ...mapGetters([
       'name',
       'roles'
     ])
+  },
+  mounted() {
+    //debugger
+    let web3 =  this.$store.state.user.web3.web3Instance
+    
+    if(web3){
+      //debugger
+      this.loaderShow = true
+      const testContract = contract(TestAbi)
+      testContract.setProvider(web3.currentProvider);
+      testContract.deployed().then(testContractInstance => {
+        testContractInstance.getAllMediaIds().then((result)=>{
+          //debugger
+          if(result && result[0] && result[1]){
+            if(result[1] > 0){
+              const mediaIds = result[0]
+              if(mediaIds){
+                const ipfsHashes = mediaIds.split('|')
+                if(ipfsHashes && ipfsHashes.length > 0){
+                  let videoList = []
+                  ipfsHashes.forEach((element, index) => {
+                    let videoObj = {
+                      title : 'Title' + index,
+                      url : 'https://ipfs.io/ipfs/' + element,
+                      description : 'Some random description',                      
+                      thumb_nail : 'https://ipfs.io/ipfs/' + element,
+                      views:"4 million",
+                      timeStamp:"last month"
+                    } 
+                    videoList.push(videoObj)
+                    console.log(videoObj)
+                    if(index == ipfsHashes.length -1){
+                    }
+                  });
+                  this.feeds[0].video_list = videoList && videoList.length > 0 ?videoList  :this.feeds[0].video_list                  
+                  this.loaderShow = false
+                }else{
+                  console.log("Inside else of ipfsHashes && ipfsHashes.length > 0")
+                  this.loaderShow = false
+                }
+              }else{
+                console.log("Inside else of mediaIds")
+                this.loaderShow = false
+              }
+            }else{
+              console.log("Inside else of result[1] > 0")
+              this.loaderShow = false
+            }
+          }else{
+            console.log("Inside else of result && result[0] && result[1]")
+            this.loaderShow = false
+          }
+          console.log(result)
+        })
+        .catch((err)=>{
+          console.log("Error : " + err.message);
+          this.loaderShow = false;
+        })
+      })
+    }else{
+      alert('Error : ' + GENERAL.NOWEB3 + '. Please login again.')
+      console.log(GENERAL.NOWEB3)
+    }
   },
   methods:{
     gotoFeed(topic){
@@ -144,154 +213,53 @@ export default {
      console.log(newTopic)
      
       this.$router.push(newTopic)
-    }
+    },
+    getAllHashes() {
+      
+    },
   },
   data(){
     return {
-        feeds:[{ category:{topic:"Trending",subtopic:"",router:'Trending'},
-                video_list:[
-                   {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"http://www.artifilmsmp3.com/wp-content/uploads/2016/01/2-Pooja-Ke-Thali-leke-470x470.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://i.ytimg.com/vi/6Z0knzjibm8/maxresdefault.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                 {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },{
-                    title:"Title 5",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://4.bp.blogspot.com/-MpV20i_QWkY/V5ZDxVr9NKI/AAAAAAAAGn4/i-qnybntX78zsEWvWLtek9ytuZZ-Gyf2QCLcB/s640/kanwatr-ke-power-dinesh-lal-yadav-amarpali-dunbey.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 7",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 8",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-
-      },
-      { category:{topic:"Bhangra",subtopic:"Recommended topic",router:'Bhangra'},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    thumb_nail:"https://i.ytimg.com/vi/_I6r7VL2XMo/maxresdefault.jpg",
-                    description:"Hi I am the description og the video",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://i.ytimg.com/vi/6Z0knzjibm8/maxresdefault.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"http://rinay.weebly.com/uploads/2/4/0/6/24061878/903337265.jpg?373",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      },
-      { category:{topic:"Bhojpuri",subtopic:"Recommended topic",router:'Bhojpuri'},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://4.bp.blogspot.com/-MpV20i_QWkY/V5ZDxVr9NKI/AAAAAAAAGn4/i-qnybntX78zsEWvWLtek9ytuZZ-Gyf2QCLcB/s640/kanwatr-ke-power-dinesh-lal-yadav-amarpali-dunbey.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://highonscore.com/wp-content/uploads/2012/10/p16i72ds6v15th1cfe1b3715d2t163-1.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"http://www.artifilmsmp3.com/wp-content/uploads/2016/01/2-Pooja-Ke-Thali-leke-470x470.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      },
-      { category:{topic:"Blues/Jazz",subtopic:"Recommended topic",router:'bluesjazz'},
-                video_list:[
-                  {
-                    title:"Title 1",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://s.hswstatic.com/gif/jazz-6.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 2",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHY7QIFMqIWqOI7QNqAJSQFHejRkj58C_1jJjK7_afEJ9jALig",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  },
-                  {
-                    title:"Title 3",
-                    url:"https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG",
-                    description:"Hi I am the description og the video",
-                    thumb_nail:"https://www.learnjazzstandards.com/wp-content/uploads/2015/09/JohnColtrane-2.jpg",
-                    views:"4 million",
-                    timeStamp:"last month"
-                  }
-              ],
-      }]
+      feeds:[
+        { category:
+          {topic:"Trending",subtopic:"",router:'Trending'},
+          video_list:[
+            {
+              title:"Title 3",
+              url:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              description:"Hi I am the description og the video",
+              thumb_nail:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              views:"4 million",
+              timeStamp:"last month"
+            },
+            {
+              title:"Title 2",
+              url:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              description:"Hi I am the description og the video",
+              thumb_nail:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              views:"4 million",
+              timeStamp:"last month"
+            },
+            {
+              title:"Title 3",
+              url:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              description:"Hi I am the description og the video",
+              thumb_nail:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              views:"4 million",
+              timeStamp:"last month"
+            },{
+              title:"Title 5",
+              url:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              description:"Hi I am the description og the video",
+              thumb_nail:"https://ipfs.io/ipfs/QmQc8ijGUrdYDVLG8KJmHwezXLGshWg1uxnKZ5xFAbJNqz",
+              views:"4 million",
+              timeStamp:"last month"
+            },
+          ]
+        },
+      ],
+      loaderShow: false,
+      loaderLabel: 'Fetching from blockchain...'
     } 
   }
   

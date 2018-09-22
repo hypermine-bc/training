@@ -40,6 +40,7 @@ const user = {
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
+        debugger
         login(username, userInfo.password)
         .then(response => {
           const data = response.data
@@ -120,6 +121,7 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
+          debugger
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_USR_DETAILS', '')

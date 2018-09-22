@@ -5,14 +5,17 @@
             <ul>
               <li id="ipfs" class="started"> {{UPLOAD.UPLD_IPFS_ONGO}} </li>
             </ul>
-            <qrcode-vue :value="value" :size="310" level="H" v-if = "showQR"></qrcode-vue>
            <ul>
               <li id="bc" class="not-started"> {{UPLOAD.UPLD_BC_ONGO}} </li>
-            </ul> <!-- {{ validationMessage }} -->
+           </ul> 
+           <qrcode-vue :value="value" :size="310" level="H" v-if = "showQR"></qrcode-vue>
+           <ul>
+              <li id="bcm" class="not-started"> {{UPLOAD.UPLD_BC_MINED}} </li>
+           </ul> <!-- {{ validationMessage }} -->
           </div>
           <div class="dialog-footer">
-            <!-- <pulse-loader :loading="loading" :color="color" :size="size" v-if="showLoader"></pulse-loader> -->
-            <scale-loader :loading="loading" :color="color" :height="height" :width="width" v-if="showLoader"></scale-loader>
+            <pulse-loader :loading="loading" :color="color" :size="size" v-if="showLoader"></pulse-loader>
+            <!-- <scale-loader :loading="loading" :color="color" :height="height" :width="width" v-if="showLoader"></scale-loader> -->
             <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
             <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
           </div>
@@ -24,11 +27,14 @@ import {UPLOAD, GENERAL} from '../../utils/message'
 import HSDispatcher from '../../hypersign-sdk/dispatcher/dispatcher.js'
 import HSController from '../../hypersign-sdk/controllers/hsi-controller.js'
 import QrcodeVue from 'qrcode.vue'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+
 var CryptoJS = require("crypto-js");
 
 export default {
   components: {
-    QrcodeVue
+    QrcodeVue,
+    PulseLoader
   },
   mounted() {
     let promise = HSDispatcher.QREventListener()
@@ -42,7 +48,7 @@ export default {
     return {
       value: '{"id": 21,"direction":"Login"}',
       showQR: false,
-      showLoader : false,
+      showLoader : true,
       dialog: true,
       dialogVisible: false,
       UPLOAD : UPLOAD,

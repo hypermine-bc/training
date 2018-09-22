@@ -22,16 +22,10 @@
       <div class="login-container">
         <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
           class="card-box login-form">
-          <h3 class="title">Decentralized Digital Content</h3>
+          <h3 class="title">Welcome to Adhat!</h3>
           <el-form-item style="background : white">
             <qrcode-vue :value="value" :size="310" level="H" ></qrcode-vue>
           </el-form-item>
-          <!--<el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
-              Send Transaction
-          </el-button> --> 
-         <!--  <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="Testfirebase">
-              Test transaction
-          </el-button>  -->
         </el-form>
         
       </div>
@@ -61,6 +55,7 @@ import  getWeb3  from '@/utils/web3/getWeb3' // 验权
 import {authservice} from '../../mixins/pusherlogin.js'
 import HSController from '../../hypersign-sdk/controllers/hsi-controller.js'
 import { getToken,setToken } from '@/utils/auth' // 验权
+
 
 // import  CryptoJS from 'crypto-js'
 var CryptoJS = require("crypto-js");
@@ -148,6 +143,11 @@ export default {
     },
     handleLogin(tokenMessage) {
       console.log(tokenMessage)
+
+      if(tokenMessage){
+        localStorage.setItem("currentUser",JSON.stringify(tokenMessage));
+      }
+      window.currentUser =  tokenMessage.currentUser
 
       this.$store.dispatch('SetInfo',tokenMessage.currentUser)
       .then(e=>{

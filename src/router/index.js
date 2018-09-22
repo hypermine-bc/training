@@ -31,7 +31,7 @@ export const constantRouterMap = [
     redirect: '/dashboard',
     name: 'Dashboard',
     hidden: true,
-     meta: { title: 'Dashboard', icon: 'tachometer-alt' },
+    meta: { title: 'Dashboard', icon: 'tachometer-alt' },
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -62,28 +62,28 @@ export const constantRouterMap = [
     children: [
       {
         path: 'trending',
-        name: 'Trending',
+        name: 'Market Place',
         component: () => import('@/views/feed/index'),
-        meta: { title: 'Trending', icon: 'headphones' }
+        meta: { title: 'Market Place', icon: 'cart-plus' }
       },
-      {
-        path: 'bhojpuri',
-        name: 'Bhojpuri',
-        component: () => import('@/views/feed/index'),
-        meta: { title: 'Bhojpuri', icon: 'headphones' }
-      },
-      {
-        path: 'bhangra',
-        name: 'Bhangra',
-        component: () => import('@/views/feed/index'),
-        meta: { title: 'Bhangra', icon: 'headphones' }
-      },
-      {
-        path: 'bluesjazz',
-        name: 'Blues/Jazz',
-        component: () => import('@/views/feed/index'),
-        meta: { title: 'Blues/Jazz', icon: 'headphones' }
-      }
+      // {
+      //   path: 'bhojpuri',
+      //   name: 'Bhojpuri',
+      //   component: () => import('@/views/feed/index'),
+      //   meta: { title: 'Bhojpuri', icon: 'headphones' }
+      // },
+      // {
+      //   path: 'bhangra',
+      //   name: 'Bhangra',
+      //   component: () => import('@/views/feed/index'),
+      //   meta: { title: 'Bhangra', icon: 'headphones' }
+      // },
+      // {
+      //   path: 'bluesjazz',
+      //   name: 'Blues/Jazz',
+      //   component: () => import('@/views/feed/index'),
+      //   meta: { title: 'Blues/Jazz', icon: 'headphones' }
+      // }
     ]
   },
   {
@@ -95,6 +95,18 @@ export const constantRouterMap = [
         name: 'Upload Content',
         component: () => import('@/views/form/index'),
         meta: { title: 'Upload Content', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/profile',
+    component: Layout,
+    children: [
+      {
+        path: '/index',
+        name: 'User Profile',
+        component: () => import('@/views/profile/index'),
+        meta: { title: 'User Profile', icon: 'user' }
       }
     ]
   },
