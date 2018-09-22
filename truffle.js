@@ -12,8 +12,14 @@ module.exports = {
       host: "127.0.0.1",
       port: 8545,
       // from: "0xb359705e8d34ed0a8ee0f28e733ebc5e6490c515",
-      from: "0x34d4f309ec47230f7024f1e197641a1c79474bfe",
+      from: "0x5964E97B04bfbA5dFD62Bf0E1fED5e54D9B7C54e",
       network_id : "*"
+    },
+    prod: {
+      host: "52.66.155.129",
+      port: 8545,
+      from: "0x5964E97B04bfbA5dFD62Bf0E1fED5e54D9B7C54e",
+      network_id : "3257"
     },
     ropsten: {
       provider: function() {
