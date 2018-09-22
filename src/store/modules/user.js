@@ -104,7 +104,9 @@ const user = {
     SetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         try{
-          commit('SET_USR_DETAILS', data.name)
+          debugger
+          commit('SET_TOKEN', state.publicToken)
+          commit('SET_USR_DETAILS', state.UserName)
           resolve(true)
         }
         catch(err){
@@ -120,6 +122,7 @@ const user = {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          commit('SET_USR_DETAILS', '')
           removeToken()
           resolve()
         }).catch(error => {

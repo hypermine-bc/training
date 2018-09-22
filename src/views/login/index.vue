@@ -29,9 +29,9 @@
           <!--<el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="callSendTx">
               Send Transaction
           </el-button> --> 
-          <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="Testfirebase">
+         <!--  <el-button  style="width:100%;" class="primary" :loading="loading" @click.native.prevent="Testfirebase">
               Test transaction
-          </el-button> 
+          </el-button>  -->
         </el-form>
         
       </div>
@@ -60,7 +60,7 @@ var sigUtil = require('eth-sig-util')
 import  getWeb3  from '@/utils/web3/getWeb3' // 验权
 import {authservice} from '../../mixins/pusherlogin.js'
 import HSController from '../../hypersign-sdk/controllers/hsi-controller.js'
-
+import { getToken,setToken } from '@/utils/auth' // 验权
 
 // import  CryptoJS from 'crypto-js'
 var CryptoJS = require("crypto-js");
@@ -148,10 +148,14 @@ export default {
     },
     handleLogin(tokenMessage) {
       console.log(tokenMessage)
+
       this.$store.dispatch('SetInfo',tokenMessage.currentUser)
       .then(e=>{
-        // debugger
+        setToken(tokenMessage.currentUser.publicToken)
         this.$router.push({ path: '/dashboard' });
+      })
+      .catch(err=>{
+        console.log(err)
       })
       
       // let web3 =  this.$store.state.user.web3.web3Instance
