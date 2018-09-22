@@ -149,13 +149,12 @@ export default {
     let web3 =  this.$store.state.user.web3.web3Instance
     
     if(web3){
+      //debugger
       this.loaderShow = true
       const testContract = contract(TestAbi)
       testContract.setProvider(web3.currentProvider);
       testContract.deployed().then(testContractInstance => {
-        testContractInstance.getAllMediaIds(
-          { from: '0x1e36d26ec23657041b6dfc5b52a640192ccc4ef8' }
-        ).then((result)=>{
+        testContractInstance.getAllMediaIds().then((result)=>{
           //debugger
           if(result && result[0] && result[1]){
             if(result[1] > 0){
@@ -197,6 +196,10 @@ export default {
             this.loaderShow = false
           }
           console.log(result)
+        })
+        .catch((err)=>{
+          console.log("Error : " + err.message);
+          this.loaderShow = false;
         })
       })
     }else{
