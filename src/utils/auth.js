@@ -3,11 +3,11 @@ import Cookies from 'js-cookie'
 const TokenKey = 'Admin-Token'
 
 export function getToken() {
-  return Cookies.get(TokenKey)
+  return localStorage.getItem(TokenKey) || 0;
 }
 
 export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+  return localStorage.setItem(TokenKey, token);
 }
 export function setWeb3(data) {
 	console.log('Setting web3 in localstorage')
@@ -21,5 +21,5 @@ export function getWeb3(token) {
 
 export function removeToken() {
   localStorage.setItem('web3', '');
-  return Cookies.remove(TokenKey)
+  localStorage.removeItem(TokenKey);
 }
