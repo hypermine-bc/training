@@ -105,7 +105,7 @@ const user = {
     SetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         try{
-          debugger
+          // debugger
           commit('SET_TOKEN', state.publicToken)
           commit('SET_USR_DETAILS', state.UserName)
           resolve(true)
@@ -120,16 +120,18 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          debugger
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          commit('SET_USR_DETAILS', '')
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        removeToken()
+        resolve(true)
+        // logout(state.token).then(() => {
+        //   // debugger
+        //   commit('SET_TOKEN', '')
+        //   commit('SET_ROLES', [])
+        //   commit('SET_USR_DETAILS', '')
+        //   removeToken()
+        //   resolve(true)
+        // }).catch(error => {
+        //   reject(error)
+        // })
       })
     },
 

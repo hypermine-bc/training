@@ -18,7 +18,7 @@
               </el-col>
             </el-row>
           </div>
-          <loading :show="loaderShow" :label="loaderLabel"></loading>
+          <!-- <loading :show="loaderShow" :label="loaderLabel"></loading> -->
     </section>
   </div>
 </template>

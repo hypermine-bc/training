@@ -25,7 +25,7 @@
           </el-dropdown-item>
         
         <el-dropdown-item divided>
-          <span @click="logout" style="display:block;">LogOut</span>
+          <span @click="logout" style="display:block;">Logout</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -36,7 +36,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-
+import { removeToken} from '@/utils/auth'
 export default {
   components: {
     Breadcrumb,
@@ -59,10 +59,15 @@ export default {
       this.$store.dispatch('ToggleSideBar')
     },
     logout() {
+      
+      removeToken()
+      location.reload()
+      //test
       // this.$router.push('/login')
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload() // 为了重新实例化vue-router对象 避免bug
-      })
+      // this.$store.dispatch('LogOut').then(() => {
+      //   console.log('Logout')
+      //   location.reload() // 为了重新实例化vue-router对象 避免bug
+      // })
     },
     goToProfile(){
       this.$router.push('/profile')
